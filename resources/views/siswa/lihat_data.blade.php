@@ -31,7 +31,7 @@
                         </div>
                         <hr>
                     @endif
-                    <div>
+                    <div class="table-responsive">
                         <table id="datatable"
                             class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline"
                             style="border-collapse: collapse; border-spacing: 0px; width: 100%;">
