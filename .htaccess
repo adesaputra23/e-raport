@@ -1,0 +1,58 @@
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+
+    RewriteEngine On
+
+    # Handle Authorization Header
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # Redirect Trailing Slashes If Not A Folder...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+
+    # Send Requests To Front Controller...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+
+    <FilesMatch "^\.">
+        Order allow,deny
+        Deny from all
+    </FilesMatch>
+    <FilesMatch "robots.txt">
+        Order allow,deny
+        Deny from all
+    </FilesMatch>
+    <FilesMatch "favicon.ico">
+        Order allow,deny
+        Deny from all
+    </FilesMatch>
+    <FilesMatch "web.config">
+        Order allow,deny
+        Deny from all
+    </FilesMatch>
+    <FilesMatch "README.md">
+        Order allow,deny
+        Deny from all
+    </FilesMatch>
+    <FilesMatch "composer.json">
+        Order allow,deny
+        Deny from all
+    </FilesMatch>
+    <FilesMatch "(app.php|autoload.php)$">
+        Order allow,deny
+        Deny from all
+    </FilesMatch>
+    <FilesMatch "\.(lock|json|xml|md)$">
+        Order allow,deny
+        Deny from all
+    </FilesMatch>
+    RedirectMatch 404 /\.git
+    RedirectMatch 404 /\.gitignitore
+    RedirectMatch 404 /\.vscode
+    RedirectMatch 404 /\.victory
+</IfModule>
