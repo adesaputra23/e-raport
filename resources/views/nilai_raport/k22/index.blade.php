@@ -119,7 +119,7 @@
                                             <table class="table table-sm m-0" style="width: 80%">
                                                 <tr>
                                                     <th>Nama Peserta Didik</th>
-                                                    <th>: {{ $is_data->nama_siswa }}</th>
+                                                    <th>: {{ $is_data->siswa->nama }}</th>
                                                 </tr>
                                                 <tr>
                                                     <th>NISN/NIS</th>
@@ -205,6 +205,84 @@
                                         </table>
                                     </div>
                                 </div>
+
+                                {{-- eksul --}}
+                                <div>
+                                    <div class="mt-4">
+                                        <table class="table table-bordered mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 7%; text-align: center;">No</th>
+                                                    <th class="text-center">Ekstrakulikuler</th>
+                                                    <th class="text-center">Keterangan</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @php
+                                                    $no_start = 1;
+                                                @endphp
+                                                @if (count($data_ekskul) < 1)
+                                                    <tr>
+                                                        <td class="border text-center">1</td>
+                                                        <td class="border">.................</td>
+                                                        <td class="border">.................</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="border text-center">2</td>
+                                                        <td class="border">.................</td>
+                                                        <td class="border">.................</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="border text-center">3</td>
+                                                        <td class="border">.................</td>
+                                                        <td class="border">.................</td>
+                                                    </tr>
+                                                @else
+                                                    @foreach ($data_ekskul as $key => $ekskul)
+                                                        @if ($ekskul->Ekskul != null)
+                                                            <tr>
+                                                                <td class="border text-center">{{ $key + 1 }}</td>
+                                                                <td class="border">{{ $ekskul->Ekskul->nama_ekskul }}
+                                                                </td>
+                                                                <td class="border">{{ $ekskul->keterangan }}</td>
+                                                            </tr>
+                                                        @endif
+                                                    @endforeach
+                                                @endif
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                {{-- ketidak hadiran --}}
+                                <div>
+                                    <div class="mt-4">
+                                        <table class="table table-bordered mb-0">
+                                            <tbody>
+                                                <tr>
+                                                    <th class="border" style="width: 7%; text-align: center;"
+                                                        colspan="2">Ketidakhadiran</th>
+                                                </tr>
+                                                <tr>
+                                                    <td class="border" style="width: 25%;">Sakit</td>
+                                                    <td class="border text-center" style="width: 15%;">
+                                                        {{ $data_absensi['sakit'] }} hari</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="border">Ijin</td>
+                                                    <td class="border text-center">{{ $data_absensi['ijin'] }} hari
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="border">Tanpa Keterangan</td>
+                                                    <td class="border text-center">
+                                                        {{ $data_absensi['tanpa_keterangan'] }} hari</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
                                 {{-- end --}}
 
                             </div>

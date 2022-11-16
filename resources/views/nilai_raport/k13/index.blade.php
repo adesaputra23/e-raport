@@ -158,13 +158,37 @@
 
                                 <hr class="mt-4">
 
-                                {{-- data nilai mata pelajaran --}}
+                                {{-- data nilai sikap --}}
                                 <div>
                                     <div class="mt-4">
-                                        <h6>Nilai Pengetahuan dan Pembelajaran</h6>
+                                        <h6>A. Nilai Sikap</h6>
+                                        <div class="mt-2">
+                                            <table class="table table-bordered mb-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-center" colspan="2">Deskripsi</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <th style="width: 20%">Sikap Spritual</th>
+                                                        <td>{{ $data_pn_sikap }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th style="width: 20%">Sikap Sosial</th>
+                                                        <td>{{ 'Ananda ' . $is_data->Siswa->nama . ' sangat jujur, percaya diri dan sudah mampu meningkatkan sikap disiplin.' }}
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    {{-- data nilai pengetahuan dan pembelajaran --}}
+                                    <div class="mt-4">
+                                        <h6>B. Nilai Pengetahuan dan Pembelajaran</h6>
                                         <h6>Nilai KKM Satuan Pendidikan : {{ $nilai_kkm->nilai_kkm }}</h6>
                                     </div>
-                                    {{-- tabel penilaian --}}
                                     <div class="mt-2">
                                         <table class="table table-bordered mb-0">
                                             <thead>
@@ -241,6 +265,219 @@
                                             </tbody>
                                         </table>
                                     </div>
+
+                                    {{-- nilai ekstrakulikuler --}}
+                                    <div>
+                                        <div class="mt-4">
+                                            <h6>C. Ekstrakurikuler</h6>
+                                            <div class="mt-2">
+                                                <table class="table table-bordered mb-0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="text-center">No</th>
+                                                            <th class="text-center">Kegiatan Ekstrakurikuler</th>
+                                                            <th class="text-center">Keterangan</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @php
+                                                            $no = 1;
+                                                        @endphp
+                                                        @foreach ($data_ekskul as $item => $ekskul)
+                                                            <tr>
+                                                                <td class="text-center">{{ $item + 1 }}</td>
+                                                                <td>{{ $ekskul->Ekskul->nama_ekskul }}
+                                                                </td>
+                                                                <td>{{ $ekskul->keterangan }}</td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {{-- saran-saran --}}
+                                    <div>
+                                        <div class="mt-4">
+                                            <h6>D. Saran-Saran</h6>
+                                            <div class="mt-2">
+                                                <table class="table table-bordered mb-0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>{{ $data_saran->saran }}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {{-- tinggi dan berat badan --}}
+                                    <div>
+                                        <div class="mt-4">
+                                            <h6>E. Tinggi Dan Berat Badan</h6>
+                                            <div class="mt-2">
+                                                <table class="table table-bordered mb-0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="align-middle"
+                                                                style="width: 7%; text-align: center;" rowspan="2">No
+                                                            </th>
+                                                            <th class="text-center align-middle" rowspan="2">Aspek
+                                                                yang di
+                                                                nilai</th>
+                                                            <th class="text-center" colspan="2">Semester</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="text-center">1</th>
+                                                            <th class="text-center">2</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @php
+                                                            $no = 1;
+                                                        @endphp
+                                                        <tr>
+                                                            <td class="text-center">1</td>
+                                                            <td>Tinggi Badan</td>
+                                                            @if ($data_TBdanBB['smt_1'] != null)
+                                                                <td class="text-center">
+                                                                    {{ $data_TBdanBB['smt_1']->tinggi_badan . ' cm' }}
+                                                                </td>
+                                                            @else
+                                                                <td class="text-center">{{ '-' }}
+                                                                </td>
+                                                            @endif
+                                                            @if ($data_TBdanBB['smt_2'] != null)
+                                                                <td class="text-center">
+                                                                    {{ $data_TBdanBB['smt_2']->tinggi_badan . ' cm' }}
+                                                                </td>
+                                                            @else
+                                                                <td class="text-center">{{ '-' }}
+                                                                </td>
+                                                            @endif
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center">2</td>
+                                                            <td>Berat Badan</td>
+                                                            @if ($data_TBdanBB['smt_1'] != null)
+                                                                <td class="text-center">
+                                                                    {{ $data_TBdanBB['smt_1']->berat_badan . ' kg' }}
+                                                                </td>
+                                                            @else
+                                                                <td class="text-center">{{ '-' }}
+                                                                </td>
+                                                            @endif
+                                                            @if ($data_TBdanBB['smt_2'] != null)
+                                                                <td class="text-center">
+                                                                    {{ $data_TBdanBB['smt_2']->berat_badan . ' kg' }}
+                                                                </td>
+                                                            @else
+                                                                <td class="text-center">{{ '-' }}
+                                                                </td>
+                                                            @endif
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {{-- kondisi kesehatan --}}
+                                    <div>
+                                        <div class="mt-4">
+                                            <h6>F. Kondisi Kesehatan</h6>
+                                            <div class="mt-2">
+                                                <table class="table table-bordered mb-0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="width: 7%; text-align: center;">
+                                                                No</th>
+                                                            <th class="text-center">Aspek Fisik</th>
+                                                            <th class="text-center">Keterangan</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @php
+                                                            $no_ks = 1;
+                                                        @endphp
+                                                        @foreach ($data_kodisi_kesehatan as $item => $kondisi_kesehatan)
+                                                            <tr>
+                                                                <td class="text-center">{{ $no_ks++ }}
+                                                                </td>
+                                                                <td>{{ $kondisi_kesehatan->kondisi }}
+                                                                </td>
+                                                                <td>
+                                                                    {{ $kondisi_kesehatan->ket_kondisi }}</td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {{-- prestasi --}}
+                                    <div>
+                                        <div class="mt-4">
+                                            <h6>G. Prestasi</h6>
+                                            <div class="mt-2">
+                                                <table class="table table-bordered mb-0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="width: 7%; text-align: center;">
+                                                                No</th>
+                                                            <th class="text-center">Jenis Prestasi</th>
+                                                            <th class="text-center">Keterangan</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @php
+                                                            $no_prst = 1;
+                                                        @endphp
+                                                        @foreach ($data_prestasi as $item => $prestasi)
+                                                            <tr>
+                                                                <td class="text-center">{{ $no_prst++ }}
+                                                                </td>
+                                                                <td>{{ $prestasi->prestasi }}</td>
+                                                                <td>{{ $prestasi->ket_prestasi }}</td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {{-- ketidak hadiran --}}
+                                    <div>
+                                        <div class="mt-4">
+                                            <h6>H. Ketidakhadiran</h6>
+                                            <div class="mt-2">
+                                                <table class="table table-bordered mb-0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Sakit</td>
+                                                            <td class="text-center">
+                                                                {{ $data_absensi['sakit'] }} hari</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Izin</td>
+                                                            <td class="text-center">{{ $data_absensi['ijin'] }}
+                                                                hari</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Tanpa keterangan</td>
+                                                            <td class="text-center">
+                                                                {{ $data_absensi['tanpa_keterangan'] }} hari</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                                 {{-- end --}}
 

@@ -82,7 +82,7 @@
     <table style="border: 0px solid black; padding: 4px; width: 100%; margin-top: -10px; font-size: 13px;">
         <tr>
             <td style="width: 20%">Nama Peserta Didik</td>
-            <td style="width: 50%">: {{ $data_siswa->nama_siswa }}</td>
+            <td style="width: 50%">: {{ $data_siswa->Siswa->nama }}</td>
             <td style="width: 20%;">Kelas</td>
             <td>: {{ $data_siswa->kelas->kelas }}</td>
         </tr>
@@ -109,21 +109,18 @@
         <tr>
             <th class="border" style="width: 7%; text-align: center;" colspan="2">Deskripsi</th>
         </tr>
-        @php
-            $no = 1;
-        @endphp
         <tr>
             <th class="border" style="text-align: left; width: 30%">Sikap Spiritual</th>
-            <td class="border">{{ $data_pn_sikap->desc_pn }}</td>
+            <td class="border">{{ $data_pn_sikap }}</td>
         </tr>
         <tr>
             <th class="border" style="text-align: left; width: 30%">Sikap Sosial</th>
             <td class="border">
-                {{ 'Ananda ' . $data_siswa->nama_siswa . ' sangat jujur, percaya diri dan sudah mampu meningkatkan sikap disiplin.' }}
+                {{ 'Ananda ' . $data_siswa->Siswa->nama . ' sangat jujur, percaya diri dan sudah mampu meningkatkan sikap disiplin.' }}
             </td>
         </tr>
     </table>
-    <p><b>B. Pengetahuan dan Keterampilan <br> KKM Satuan Pendidikan : 70 </b></p>
+    <p><b>B. Pengetahuan dan Keterampilan <br>Nilai KKM Satuan Pendidikan : 70 </b></p>
     <table style="border-collapse: collapse; padding: 4px; width: 100%; margin-top: -10px; font-size: 13px;">
         <tr>
             <th class="border text-center" rowspan="2">No</th>
@@ -251,12 +248,12 @@
             <td class="border text-center">2</td>
             <td class="border">Berat Badan</td>
             @if ($data_TBdanBB['smt_1'] != null)
-                <td class="border text-center">{{ $data_TBdanBB['smt_1']->berat_badan . ' cm' }}</td>
+                <td class="border text-center">{{ $data_TBdanBB['smt_1']->berat_badan . ' kg' }}</td>
             @else
                 <td class="border text-center">{{ '-' }}</td>
             @endif
             @if ($data_TBdanBB['smt_2'] != null)
-                <td class="border text-center">{{ $data_TBdanBB['smt_2']->berat_badan . ' cm' }}</td>
+                <td class="border text-center">{{ $data_TBdanBB['smt_2']->berat_badan . ' kg' }}</td>
             @else
                 <td class="border text-center">{{ '-' }}</td>
             @endif

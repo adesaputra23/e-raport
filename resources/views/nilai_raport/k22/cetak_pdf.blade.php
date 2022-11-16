@@ -40,8 +40,8 @@
 </style>
 
 @php
-use App\Http\Controllers\RaportController;
-$date = date('d M Y');
+    use App\Http\Controllers\RaportController;
+    $date = date('d M Y');
 @endphp
 
 <body>
@@ -60,7 +60,7 @@ $date = date('d M Y');
         <table class="center" style="border: 1px solid black; padding: 4px; width: 40%; margin-top: -10px;">
             <tr>
                 <td style="text-align: center;">
-                    {{ $data_siswa->nama_siswa }}
+                    {{ $data_siswa->siswa->nama }}
                 </td>
             </tr>
         </table>
@@ -81,7 +81,7 @@ $date = date('d M Y');
     <table style="border: 0px solid black; padding: 4px; width: 100%; margin-top: -10px; font-size: 13px;">
         <tr>
             <td style="width: 20%">Nama Peserta Didik</td>
-            <td style="width: 50%">: {{ $data_siswa->nama_siswa }}</td>
+            <td style="width: 50%">: {{ $data_siswa->Siswa->nama }}</td>
             <td style="width: 20%;">Kelas</td>
             <td>: {{ $data_siswa->Kelas->kelas }}</td>
         </tr>
@@ -119,7 +119,7 @@ $date = date('d M Y');
             @php
                 $grnerate_nilai = RaportController::GenerateNilai($nilai['nilai_total']);
                 $gnerate_predikat = RaportController::GeneratePredikat($grnerate_nilai);
-                $line_text = 'Ananda ' . $data_siswa->nama_siswa . ', ' . $gnerate_predikat . ' ';
+                $line_text = 'Ananda ' . $data_siswa->siswa->nama . ', ' . $gnerate_predikat . ' ';
             @endphp
             <tr>
                 <td class="border text-center">{{ $no++ }}</td>

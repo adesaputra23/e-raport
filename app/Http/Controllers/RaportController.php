@@ -70,18 +70,29 @@ class RaportController extends Controller
         $data_nilai = [];
         if ($kurikulum->kode_kurikulum === Kurikulum::K13) {
             if (!empty($request->input())) {
+                $data_pn_sikap = self::getPnSikap($request->nisn, $kelas->kode_kelas);
+                $data_ekskul = self::getEkskul($request->nisn, $kelas->kode_kelas);
+                $data_saran = self::getPnSaran($request->nisn, $kelas->kode_kelas);
+                $data_TBdanBB = self::getPnTinggidanBB($request->nisn, $kelas->kode_kelas);
+                $data_kodisi_kesehatan = self::getKondisiKesatan($request->nisn, $kelas->kode_kelas);
+                $data_prestasi = self::getPrestasi($request->nisn, $kelas->kode_kelas);
+                $data_absensi = self::GetAbsesni($request->nisn, $kelas->kode_kelas);
                 $data_siswa = self::getSiswak13($request);
                 $data_nilai = self::getNilaiK13($request);
                 $is_data = $data_siswa;
             }
-            return view('nilai_raport/k13/index', compact('list_siswa', 'is_data', 'data_nilai', 'nilai_kkm', 'list_kelas'));
+            return view('nilai_raport/k13/index', 
+                compact('list_siswa', 'is_data', 'data_nilai', 'nilai_kkm', 'list_kelas', 'data_pn_sikap', 'data_ekskul', 'data_saran', 'data_TBdanBB', 'data_kodisi_kesehatan', 'data_prestasi', 'data_absensi')
+            );
         }elseif($kurikulum->kode_kurikulum === Kurikulum::Prototype){
             if (!empty($request->input())) {
+                $data_ekskul = self::getEkskul($request->nisn, $kelas->kode_kelas);
+                $data_absensi = self::GetAbsesni($request->nisn, $kelas->kode_kelas);
                 $data_siswa = self::getSiswaK22($request);
                 $data_nilai = self::getNilaiK22($request);
                 $is_data = $data_siswa;
             }
-            return view('nilai_raport/k22/index', compact('list_siswa', 'is_data', 'nilai_kkm', 'data_nilai', 'list_kelas'));
+            return view('nilai_raport/k22/index', compact('list_siswa', 'is_data', 'nilai_kkm', 'data_nilai', 'list_kelas', 'data_ekskul', 'data_absensi'));
         }
     }
 
@@ -382,7 +393,13 @@ class RaportController extends Controller
         $semester = Semester::GetAktifSemester()->id;
         $tahun_ajaran = TahunAjaran::GetAktiveTahunAjaran()->id_tahun_ajaran;
         $get_pn = PnSikap::where('kode_kurikulum', $aktif_kurikulum)->where('id_tahun_ajaran', $tahun_ajaran)->where('id_smester', $semester)->where('nisn', $nisn)->where('kode_kelas', $kode_kelas)->first();
-        return $get_pn;
+        $is_data = '-';
+        if ($get_pn != null) {
+            $is_data = explode (",",$get_pn->desc_pn);
+            $is_data[0] = "Ananda ".$get_pn->Siswa->nama;
+            $is_data = implode(", ", $is_data);
+        }
+        return $is_data;
     }
 
      public function getNilaiK13Raport($nisn, $kode_kelas)

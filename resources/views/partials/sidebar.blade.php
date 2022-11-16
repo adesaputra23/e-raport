@@ -151,7 +151,7 @@
                             </li>
                             <li><a
                                     href="{{ URL(Session::get('prefix') . '/user/lihat-data/?menu=siswa / wali murid') }}">Siswa
-                                    / Wali Murit</a></li>
+                                    / Wali Murid</a></li>
                         </ul>
                     </li>
                 @elseif(RoleUser::CheckRole()->user_role === RoleUser::WaliKelas)
