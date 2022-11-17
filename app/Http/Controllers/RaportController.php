@@ -68,6 +68,13 @@ class RaportController extends Controller
         $nilai_kkm = KKM::first();
         $is_data = [];
         $data_nilai = [];
+        $data_ekskul = [];
+        $data_absensi = [];
+        $data_pn_sikap = [];
+        $data_saran = [];
+        $data_TBdanBB = [];
+        $data_kodisi_kesehatan = [];
+        $data_prestasi = [];
         if ($kurikulum->kode_kurikulum === Kurikulum::K13) {
             if (!empty($request->input())) {
                 $data_pn_sikap = self::getPnSikap($request->nisn, $kelas->kode_kelas);

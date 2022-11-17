@@ -144,27 +144,31 @@
                                     <thead>
                                         <tr>
                                             <td scope="row" style="width: 30%">NIK</td>
-                                            <td>: {{ $siswa->nik_ayah ?? '-' }} </td>
+                                            <td>:
+                                                {{ $siswa->WaliSiswa->nik_ayah ?? '-' }}
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td scope="row">Nama Ayah</td>
-                                            <td>: {{ $siswa->nama_ayah ?? '-' }}</td>
+                                            <td>: {{ $siswa->WaliSiswa->nama_ayah ?? '-' }}</td>
                                         </tr>
                                         <tr>
                                             <td scope="row">Pekerjaan</td>
-                                            <td>: {{ $siswa->pekerjaan_ayah ?? '-' }}</td>
+                                            <td>: {{ User::MAP_PEKRJAAN[$siswa->WaliSiswa->pekerjaan_ayah] ?? '-' }}
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td scope="row">No Telpon</td>
-                                            <td>: {{ $siswa->telpon_ayah ?? '-' }}</td>
+                                            <td>: {{ $siswa->WaliSiswa->no_hp_ayah ?? '-' }}</td>
                                         </tr>
                                         <tr>
                                             <td scope="row">Pendidikan</td>
-                                            <td>: {{ $siswa->pendidikan_ayah ?? '-' }}</td>
+                                            <td>: {{ User::MAP_PENDIDIKAN[$siswa->WaliSiswa->pendidikan_ayah] ?? '-' }}
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td scope="row">Email</td>
-                                            <td>: {{ $siswa->email_ayah ?? '-' }}</td>
+                                            <td>: {{ $siswa->WaliSiswa->email_ayah ?? '-' }}</td>
                                         </tr>
                                     </thead>
                                 </table>
@@ -175,27 +179,29 @@
                                     <thead>
                                         <tr>
                                             <td scope="row" style="width: 30%">NIK</td>
-                                            <td>: {{ $siswa->nik_ibu ?? '-' }} </td>
+                                            <td>: {{ $siswa->WaliSiswa->nik_ibu ?? '-' }} </td>
                                         </tr>
                                         <tr>
                                             <td scope="row">Nama Ibu</td>
-                                            <td>: {{ $siswa->nama_ibu ?? '-' }}</td>
+                                            <td>: {{ $siswa->WaliSiswa->nama_ibu ?? '-' }}</td>
                                         </tr>
                                         <tr>
                                             <td scope="row">Pekerjaan</td>
-                                            <td>: {{ $siswa->pekerjaan_ibu ?? '-' }}</td>
+                                            <td>: {{ User::MAP_PEKRJAAN[$siswa->WaliSiswa->pekerjaan_ibu] ?? '-' }}
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td scope="row">No Telpon</td>
-                                            <td>: {{ $siswa->telpon_ibu ?? '-' }}</td>
+                                            <td>: {{ $siswa->WaliSiswa->no_hp_ibu ?? '-' }}</td>
                                         </tr>
                                         <tr>
                                             <td scope="row">Pendidikan</td>
-                                            <td>: {{ $siswa->pendidikan_ibu ?? '-' }}</td>
+                                            <td>: {{ User::MAP_PENDIDIKAN[$siswa->WaliSiswa->pendidikan_ibu] ?? '-' }}
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td scope="row">Email</td>
-                                            <td>: {{ $siswa->email_ibu ?? '-' }}</td>
+                                            <td>: {{ $siswa->WaliSiswa->email_ibu ?? '-' }}</td>
                                         </tr>
                                     </thead>
                                 </table>
@@ -206,27 +212,29 @@
                                     <thead>
                                         <tr>
                                             <td scope="row" style="width: 30%">NIK</td>
-                                            <td>: {{ $siswa->nik_wali ?? '-' }} </td>
+                                            <td>: {{ $siswa->WaliSiswa->nik_wali ?? '-' }} </td>
                                         </tr>
                                         <tr>
                                             <td scope="row">Nama Wali</td>
-                                            <td>: {{ $siswa->nama_wali ?? '-' }}</td>
+                                            <td>: {{ $siswa->WaliSiswa->ama_wali ?? '-' }}</td>
                                         </tr>
                                         <tr>
                                             <td scope="row">Pekerjaan</td>
-                                            <td>: {{ $siswa->pekerjaan_wali ?? '-' }}</td>
+                                            <td>: {{ User::MAP_PEKRJAAN[$siswa->WaliSiswa->pekerjaan_wali] ?? '-' }}
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td scope="row">No Telpon</td>
-                                            <td>: {{ $siswa->telpon_wali ?? '-' }}</td>
+                                            <td>: {{ $siswa->WaliSiswa->no_hp_wali ?? '-' }}</td>
                                         </tr>
                                         <tr>
                                             <td scope="row">Pendidikan</td>
-                                            <td>: {{ $siswa->pendidikan_wali ?? '-' }}</td>
+                                            <td>: {{ User::MAP_PENDIDIKAN[$siswa->WaliSiswa->pendidikan_wali] ?? '-' }}
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td scope="row">Email</td>
-                                            <td>: {{ $siswa->email_wali ?? '-' }}</td>
+                                            <td>: {{ $siswa->WaliSiswa->email_wali ?? '-' }}</td>
                                         </tr>
                                     </thead>
                                 </table>
