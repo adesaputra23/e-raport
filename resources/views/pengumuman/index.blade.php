@@ -1,12 +1,13 @@
 @php
     use App\User;
-    use App\TahunAjaran;
+    use App\Http\Controllers\Controller;
+    use App\RoleUser;
 @endphp
 
 @include('partials/main')
 
 <head>
-    @include('partials/title-meta', ['title' => $title])
+    @include('partials/title-meta', ['title' => 'Data Pengumuman'])
     @include('partials/head-css')
 </head>
 
@@ -20,52 +21,54 @@
     <div class="main-content">
         <div class="page-content">
             <div class="container-fluid">
-                @include('partials/page-title', ['pagetitle' => 'Dashboard', 'title' => $title])
+                @include('partials/page-title', ['pagetitle' => 'Dashboard', 'title' => 'Data Pengumuman'])
                 @include('partials/alert_mesage')
                 {{-- isi conten --}}
                 <div class="card card-body">
-                    <div>
-                        <a href="{{ URL(Session::get('prefix') . '/ekskul/form-tambah-data', ['id' => 0]) }}"
-                            class="btn btn-sm btn-primary waves-effect waves-light">Tambah Data</a>
-                    </div>
+                    @if (RoleUser::CheckRole()->user_role === RoleUser::Admin)
+                        <div>
+                            <a href="{{ URL(Session::get('prefix') . '/pengumuman/form-data', ['id' => 0]) }}"
+                                class="btn btn-sm btn-primary waves-effect waves-light">Tambah Data</a>
+                        </div>
+                    @endif
                     <hr>
-                    <div>
+                    <div class="table-responsive">
                         <table id="datatable"
                             class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline"
                             style="border-collapse: collapse; border-spacing: 0px; width: 100%;">
                             <thead>
                                 <tr>
-                                    <th>Kode Ekskul</th>
-                                    <th>Ekskul</th>
-                                    <th>Keterangan</th>
-                                    <th>Tahun Ajaran</th>
+                                    <th>Judul</th>
+                                    <th>Isi</th>
+                                    <th>Tanggal</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
-
                             <tbody>
-                                @foreach ($list_data as $keys => $data)
+                                @foreach ($list_data as $item => $data)
                                     <tr>
-                                        <td>{{ $data->kode_ekskul }}</td>
-                                        <td>{{ $data->nama_ekskul }}</td>
-                                        <td>{{ $data->desc_ekskul }}</td>
-                                        <td>{{ !empty($data->TahunAjaran) ? $data->TahunAjaran->tahun_ajaran : '-' }}
-                                        </td>
-                                        <td style="width: 10%">
+                                        <td>{{ $data->judul }}</td>
+                                        <td>{!! $data->isi == null ? '-' : substr($data->isi, 0, 50) . '...' !!}</td>
+                                        <td>{{ $data->tanggal }}</td>
+                                        <td>
                                             <div class="btn-group float-end" role="group" aria-label="Basic example">
-                                                <a href="{{ URL(Session::get('prefix') . '/ekskul/form-tambah-data', ['id' => $data->kode_ekskul]) }}"
-                                                    class="btn btn-warning btn-sm">Ubah</a>
-                                                <button data-bs-toggle="modal" id="id-btn-hapus"
-                                                    data-id="{{ $data->kode_ekskul }}" data-bs-target="#firstmodal"
-                                                    type="button" class="btn btn-danger btn-sm">
-                                                    Hapus
-                                                </button>
+                                                @if (RoleUser::CheckRole()->user_role === RoleUser::Admin)
+                                                    <a href="{{ URL(Session::get('prefix') . '/pengumuman/form-data', ['id' => $data->id_pengumuman]) }}"
+                                                        class="btn btn-warning btn-sm">Ubah</a>
+                                                    <button data-bs-toggle="modal" id="id-btn-hapus"
+                                                        data-id="{{ $data->id_pengumuman }}"
+                                                        data-bs-target="#firstmodal" type="button"
+                                                        class="btn btn-danger btn-sm">
+                                                        Hapus
+                                                    </button>
+                                                @endif
+                                                <a href="{{ URL(Session::get('prefix') . '/pengumuman/show', ['id' => $data->id_pengumuman]) }}"
+                                                    class="btn btn-primary btn-sm">Detail</a>
                                             </div>
                                         </td>
                                     </tr>
                                 @endforeach
                             </tbody>
-
                         </table>
                     </div>
                 </div>
@@ -116,9 +119,8 @@
 <script>
     $(document).on('click', '#id-btn-hapus', function() {
         let id = $(this).data('id');
-        let url = "{{ URL(Session::get('prefix') . '/ekskul/hapus-data/') }}" + "/" + id;
+        let url = "{{ URL(Session::get('prefix') . '/pengumuman/delete/') }}" + "/" + id;
         $("#btn-hapus").attr('href', url);
-        $("#btn-hapus").show();
     });
 </script>
 

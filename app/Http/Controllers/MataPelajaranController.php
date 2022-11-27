@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\JadwaMengajar;
 use App\Kelas;
 use App\KKM;
 use App\Kurikulum;
 use App\MataPelajaran;
 use App\PegawaiDanGuru;
 use App\RoleUser;
+use App\Semester;
 use App\TahunAjaran;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class MataPelajaranController extends Controller
 {
@@ -23,7 +26,9 @@ class MataPelajaranController extends Controller
     {
         $title = 'Data Mata Pelajaran';
         $list_kkm = KKM::get();
-        
+        $list_semester = Semester::get();
+        $list_tahun_ajaran = TahunAjaran::get();
+
         if (RoleUser::CheckRole()->user_role === RoleUser::Admin){
             $list_data = MataPelajaran::with('guru','kelas', 'kurikulum')->get();
         }elseif (RoleUser::CheckRole()->user_role === RoleUser::WaliKelas) {
@@ -42,6 +47,8 @@ class MataPelajaranController extends Controller
                 'title',
                 'list_data',
                 'list_kkm',
+                'list_semester',
+                'list_tahun_ajaran'
             )
         );
     }
@@ -55,6 +62,8 @@ class MataPelajaranController extends Controller
     {
         $get_mata_pelajaran = MataPelajaran::where('id', $id)->first();
         $list_guru = PegawaiDanGuru::where('jabatan', PegawaiDanGuru::GURU)->get();
+        $list_semester = Semester::get();
+        $list_tahun_ajaran = TahunAjaran::get();
         $list_kelas = Kelas::get();
         $list_kurikulum = Kurikulum::get();
         return view('mata_pelajaran.created_form',
@@ -62,7 +71,9 @@ class MataPelajaranController extends Controller
                 'get_mata_pelajaran',
                 'list_guru',
                 'list_kelas',
-                'list_kurikulum'
+                'list_kurikulum',
+                'list_semester',
+                'list_tahun_ajaran'
             )
         );
     }
@@ -92,7 +103,8 @@ class MataPelajaranController extends Controller
             $simpan_data->nik               = $request->guru;
             $simpan_data->kode_kelas        = $request->kelas;
             $simpan_data->kode_kurikulum    = $request->kurikulum;
-
+            $simpan_data->id_semester       = $request->semester;
+            $simpan_data->id_tahun_ajaran   = $request->tahun_ajaran;
             $simpan_data->save();
             return redirect()->route('mata.pelajaran.lihat.data.admin')->with('success', $message);
         } catch (\Throwable $th) {
@@ -159,10 +171,76 @@ class MataPelajaranController extends Controller
             $save_kkm->nilai_kkm = $request->nilai_kkm;
             $save_kkm->desc_kkm = $request->desc_kkm;
             $save_kkm->updated_at = date('Y-m-d H:i:s');
+            $save_kkm->id_semester = $request->semester;
+            $save_kkm->id_tahun_ajaran = $request->tahun_ajaran;
             $save_kkm->save();
             return redirect()->route('mata.pelajaran.lihat.data.admin')->with('success', 'Berhasil ubah data');
         } catch (\Throwable $th) {
             return redirect()->route('mata.pelajaran.lihat.data.admin')->with('error', $th->getMessage());
         }
     }
+
+    public function jadwalNgajar()
+    {
+        $list_data = JadwaMengajar::get();
+        return view('mata_pelajaran/jadwal_ngajar', compact('list_data'));
+    }
+
+    public function FormJadwalNgajar($id)
+    {
+        $jadwal_ngajar = JadwaMengajar::find($id);
+        $title = 'Tambah';
+        if (!empty($jadwal_ngajar)) {
+            $title = 'Ubah';
+        }
+        $list_kurikulum = Kurikulum::get();
+        $list_kelas = Kelas::get();
+        $list_semester = Semester::get();
+        $list_tahun_ajaran = TahunAjaran::get();
+        return view('mata_pelajaran/form_jadwal_ngajar', compact('list_kurikulum', 'list_kelas', 'list_semester', 'list_tahun_ajaran', 'title', 'jadwal_ngajar'));
+    }
+
+    public function SaveJadwalNgajar(Request $request)
+    {
+        try {
+            if ($request->action === 'tambah') {
+                $new_jadwal = new JadwaMengajar();
+                $message = 'Berhasil simpan data jadwal mengajar';
+            }elseif ($request->action === 'ubah') {
+                $new_jadwal = JadwaMengajar::find($request->id);
+                $message = 'Berhasil ubah data jadwal mengajar';
+            }
+            $new_jadwal->kode_kurikulum = $request->kurikulum;
+            $new_jadwal->kode_kelas = $request->kelas;
+            $new_jadwal->kode_mt = $request->mata_pelajaran;
+            $new_jadwal->jam_ngajar = $request->jam;
+            $new_jadwal->id_semester = $request->semester;
+            $new_jadwal->id_tahun_ajaran = $request->tahun_ajaran;
+            $new_jadwal->save();
+            return redirect()->route('mata.pelajaran.jadwal.ngajar')->with('success', $message);
+        } catch (\Throwable $th) {
+            return redirect()->route('mata.pelajaran.jadwal.ngajar')->with('error', 'Error : '.$th->getMessage().' / '.$th->getLine());
+        }
+    }
+
+    public function AjaxGetMapel(Request $request)
+    {
+        $kelas = $request->kelas;
+        $kurikulum = $request->kurikulum;
+        $list_mapel = MataPelajaran::where('kode_kurikulum', $kurikulum)->where('kode_kelas', $kelas)->get();
+        return response()->json($list_mapel);
+    }
+
+    public function JadwalNgajarDelete($id)
+    {
+        try {
+            $deleted = JadwaMengajar::find($id);
+            $deleted->delete();
+            $message = 'Berhasil hapus data jadwal mengajar';
+            return redirect()->route('mata.pelajaran.jadwal.ngajar')->with('success', $message);
+        } catch (\Throwable $th) {
+            return redirect()->route('mata.pelajaran.jadwal.ngajar')->with('error', 'Error : '.$th->getMessage().' / '.$th->getLine());
+        }
+    }
+
 }

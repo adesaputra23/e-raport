@@ -7,6 +7,7 @@ use App\Kelas;
 use App\Kurikulum;
 use App\MataPelajaran;
 use App\PegawaiDanGuru;
+use App\Pengumuman;
 use App\RoleUser;
 use App\Semester;
 use App\Siswa;
@@ -54,7 +55,7 @@ class HomeController extends Controller
         $count_mp_22 = [];
         $count_user = [];
         $count_guru_pegawai = [];
-
+        $pengumumans = [];
         if (RoleUser::CheckRole()->user_role === RoleUser::WaliKelas) {
             $count_siswa = Siswa::whereHas('sisiwakelas', function($q) use ($kelas)
                     {
@@ -72,6 +73,8 @@ class HomeController extends Controller
             $count_mp_22 = MataPelajaran::where('kode_kurikulum', Kurikulum::Prototype)->count();
             $count_user = User::count();
             $count_guru_pegawai = PegawaiDanGuru::count();
+        }elseif (RoleUser::CheckRole()->user_role === RoleUser::WaliMurid) {
+            $pengumumans = Pengumuman::get();
         }
 
         return view('home',
@@ -88,7 +91,8 @@ class HomeController extends Controller
                 'count_mp_k13',
                 'count_mp_22',
                 'count_user',
-                'count_guru_pegawai'
+                'count_guru_pegawai',
+                'pengumumans'
             )
         );
     }

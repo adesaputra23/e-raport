@@ -13,6 +13,8 @@ class PegawaiDanGuru extends Model
     protected $primaryKey = 'id';
     protected $guarded = [];
 
+    const KEPALA_SEKOLAH = 1;
+
     const MAP_JABATAN = [
         1 => 'Kepala Sekolah',
         2 => 'Guru',

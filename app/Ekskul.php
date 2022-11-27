@@ -18,4 +18,9 @@ class Ekskul extends Model
     {
         return $this->hasOne('App\PnEkskul', 'kode_ekskul', 'kode_ekskul');
     }
+
+    public function TahunAjaran()
+    {
+        return $this->hasOne('App\TahunAjaran', 'id_tahun_ajaran', 'id_tahun_ajaran');
+    }
 }

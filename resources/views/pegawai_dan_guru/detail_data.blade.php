@@ -73,6 +73,14 @@
                                                 <th scope="row">NIP</th>
                                                 <td>{{ $data_karyawan != null ? $data_karyawan->nik : '-' }}</td>
                                             </tr>
+
+                                            @if ($data_karyawan->jabatan == PegawaiDanGuru::KEPALA_SEKOLAH)
+                                                <tr>
+                                                    <th scope="row">NIP Guru</th>
+                                                    <td>{{ $data_karyawan != null ? $data_karyawan->nip_2 : '-' }}</td>
+                                                </tr>
+                                            @endif
+
                                             <tr>
                                                 <th scope="row">EMAIL</th>
                                                 <td>{{ $data_karyawan != null ? $data_karyawan->User->email : '-' }}

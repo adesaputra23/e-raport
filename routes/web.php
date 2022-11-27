@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PengumumanController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -162,7 +163,32 @@ Route::prefix('admin','middleware')->group(function(){
     Route::get('/assesment/tujuan-pembelajaran/add-data/{id}', 'TujuanPembelajaranController@AddtujuanPebelajaran')->name('assesment.tujuan.pembelajaran.add.admin');
     Route::post('/assesment/tujuan-pembelajaran/save-data', 'TujuanPembelajaranController@Save')->name('assesment.tujuan.pembelajaran.save.admin');
     Route::get('/assesment/tujuan-pembelajaran/hapus-data/{id}', 'TujuanPembelajaranController@Hapus')->name('assesment.tujuan.pembelajaran.hapus.data.admin');
+
+    // pengumuman
+    Route::get('/pengumuman/index', 'PengumumanController@index')->name('pengumuman.index');
+    Route::get('/pengumuman/form-data/{id}', 'PengumumanController@form_data')->name('penggumuman.form_data');
+    Route::post('/pengumuman/save', 'PengumumanController@save')->name('penggumuman.save');
+    Route::get('/pengumuman/delete/{id}', 'PengumumanController@delete')->name('penggumuman.delete');
+    Route::get('/pengumuman/show/{id}', 'PengumumanController@show')->name('penggumuman.show');
+
 });
+
+// set jadwal ngajar kepala sekolah
+Route::get('/mata-pelajaran/jadwal-ngajar', 'MataPelajaranController@jadwalNgajar')->name('mata.pelajaran.jadwal.ngajar');
+Route::get('/mata-pelajaran/form-jadal-ngajar/{id}', 'MataPelajaranController@FormJadwalNgajar')->name('mata.pelajaran.form.jadwal.ngajar');
+Route::post('/mata-pelajaran/save-jadal-ngajar', 'MataPelajaranController@SaveJadwalNgajar')->name('mata.pelajaran.save.jadwal.ngajar');
+Route::get('/mata-pelajaran/delete-jadwal-ngajar/{id}', 'MataPelajaranController@JadwalNgajarDelete')->name('mata.pelajaran.delete.jadwal.ngajar');
+
+// seting nip kepala sekolah
+Route::get('/guru-pegawai/set-nip', 'PegawaiDanGuruController@SetNip')->name('guru.pegawai.set.nip');
+Route::post('/guru-pegawai/save-nip', 'PegawaiDanGuruController@SaveNip')->name('guru.pegawai.save.nip');
+
+// ajax get kelas
+Route::post('/mata-pelajaran/ajax-get-mapel', 'MataPelajaranController@AjaxGetMapel');
+
+// detail pengumuman
+Route::get('/pengumuman/index', 'PengumumanController@index')->name('pengumuman.index');
+Route::get('/pengumuman/show/{id}', 'PengumumanController@show')->name('penggumuman.show');
 
 Route::get('/api', 'SiswaController@SiswaSerach')->name('siswa.api');
 

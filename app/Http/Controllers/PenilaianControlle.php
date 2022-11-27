@@ -392,7 +392,7 @@ class PenilaianControlle extends Controller
     {
         $siswa_nisn = $request->siswa_nisn;
         $kode_kelas = $request->kode_kelas;
-        $list_extrakulikuler = Ekskul::with(['pnekskul' => function($q) use ($siswa_nisn, $kode_kelas)
+        $list_extrakulikuler = Ekskul::where('id_tahun_ajaran', TahunAjaran::GetAktiveTahunAjaran()->id_tahun_ajaran)->with(['pnekskul' => function($q) use ($siswa_nisn, $kode_kelas)
         {
             $q->where('nisn', $siswa_nisn);
             $q->where('kode_kelas', $kode_kelas);

@@ -43,6 +43,16 @@ class MataPelajaran extends Model
         return $this->hasOne('App\MateriPembelajaran', 'kode_mt', 'kode_mt')->where('id_semester', Semester::GetAktifSemester()->id);
     }
 
+    public function Semester()
+    {
+        return $this->hasOne('App\Semester', 'id', 'id_semester');
+    }
+
+    public function TahunAjaran()
+    {
+        return $this->hasOne('App\TahunAjaran', 'id_tahun_ajaran', 'id_tahun_ajaran');
+    }
+
     public static function GetbyId($id)
     {
         return MataPelajaran::where('kode_mt', $id)->first();

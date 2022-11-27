@@ -150,4 +150,22 @@ class PegawaiDanGuruController extends Controller
             )
         );
     }
+
+    public function SetNip()
+    {
+        $list_data = PegawaiDanGuru::where('jabatan', PegawaiDanGuru::KEPALA_SEKOLAH)->first();
+        return view('pegawai_dan_guru/seting_nip', compact('list_data'));
+    }
+
+    public function SaveNip(Request $request)
+    {
+        try {
+            $new_update = PegawaiDanGuru::where('id', $request->id)->first();
+            $new_update->nip_2 = $request->nip;
+            $new_update->save();
+            return redirect()->route('guru.pegawai.set.nip')->with('success', 'Berhasil seting nip');
+        } catch (\Throwable $th) {
+            return redirect()->route('guru.pegawai.set.nip')->with('error', 'Error: '.$th->getMessage().' / '.$th->getLine());
+        }
+    }
 }

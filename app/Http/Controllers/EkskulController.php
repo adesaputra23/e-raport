@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Ekskul;
+use App\TahunAjaran;
 use Illuminate\Http\Request;
 
 class EkskulController extends Controller
@@ -32,9 +33,11 @@ class EkskulController extends Controller
     public function create($id)
     {
         $get_ekskul = Ekskul::find($id);
+        $list_tahun_ajaran = TahunAjaran::get();
         return view('ekskul.created_form',
             compact(
                 'get_ekskul',
+                'list_tahun_ajaran'
             )
         );
     }
@@ -61,6 +64,7 @@ class EkskulController extends Controller
         try {
             $simpan_data->nama_ekskul = $request->nama_ekskul;
             $simpan_data->desc_ekskul = $request->desc_ekskul;
+            $simpan_data->id_tahun_ajaran = $request->tahun_ajaran;
             $simpan_data->save();
             return redirect()->route('ekskul.lihat.data.admin')->with('success', $message);
         } catch (\Throwable $th) {

@@ -1,12 +1,13 @@
 @php
     use App\User;
-    use App\TahunAjaran;
+    use App\Http\Controllers\Controller;
+    use App\RoleUser;
 @endphp
 
 @include('partials/main')
 
 <head>
-    @include('partials/title-meta', ['title' => $title])
+    @include('partials/title-meta', ['title' => 'Jadwal Mengajar'])
     @include('partials/head-css')
 </head>
 
@@ -20,44 +21,47 @@
     <div class="main-content">
         <div class="page-content">
             <div class="container-fluid">
-                @include('partials/page-title', ['pagetitle' => 'Dashboard', 'title' => $title])
+                @include('partials/page-title', ['pagetitle' => 'Dashboard', 'title' => 'Jadwal Mengajar'])
                 @include('partials/alert_mesage')
                 {{-- isi conten --}}
                 <div class="card card-body">
                     <div>
-                        <a href="{{ URL(Session::get('prefix') . '/ekskul/form-tambah-data', ['id' => 0]) }}"
+                        <a href="{{ URL(Session::get('prefix') . '/mata-pelajaran/form-jadal-ngajar', ['id' => 0]) }}"
                             class="btn btn-sm btn-primary waves-effect waves-light">Tambah Data</a>
                     </div>
                     <hr>
-                    <div>
+                    <div class="table-responsive">
                         <table id="datatable"
                             class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline"
                             style="border-collapse: collapse; border-spacing: 0px; width: 100%;">
                             <thead>
                                 <tr>
-                                    <th>Kode Ekskul</th>
-                                    <th>Ekskul</th>
-                                    <th>Keterangan</th>
+                                    <th>Kurikulum</th>
+                                    <th>Mata Pelajaran</th>
+                                    <th>Jam</th>
+                                    <th>Kelas</th>
+                                    <th>Semester</th>
                                     <th>Tahun Ajaran</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
-
                             <tbody>
-                                @foreach ($list_data as $keys => $data)
+                                @foreach ($list_data as $item => $value)
                                     <tr>
-                                        <td>{{ $data->kode_ekskul }}</td>
-                                        <td>{{ $data->nama_ekskul }}</td>
-                                        <td>{{ $data->desc_ekskul }}</td>
-                                        <td>{{ !empty($data->TahunAjaran) ? $data->TahunAjaran->tahun_ajaran : '-' }}
-                                        </td>
-                                        <td style="width: 10%">
+                                        <td>{{ $value->kurikulum->nama_kurikulum }}</td>
+                                        <td>{{ $value->Mapel->nama_mt }}</td>
+                                        <td>{{ $value->jam_ngajar }}</td>
+                                        <td>{{ $value->kelas->ket_kelas }}</td>
+                                        <td>{{ $value->semester->nama_smester }}</td>
+                                        <td>{{ $value->tahunajaran->tahun_ajaran }}</td>
+                                        <td>
                                             <div class="btn-group float-end" role="group" aria-label="Basic example">
-                                                <a href="{{ URL(Session::get('prefix') . '/ekskul/form-tambah-data', ['id' => $data->kode_ekskul]) }}"
+                                                <a href="{{ URL(Session::get('prefix') . '/mata-pelajaran/form-jadal-ngajar', ['id' => $value->id_jadwal_ngajar]) }}"
                                                     class="btn btn-warning btn-sm">Ubah</a>
                                                 <button data-bs-toggle="modal" id="id-btn-hapus"
-                                                    data-id="{{ $data->kode_ekskul }}" data-bs-target="#firstmodal"
-                                                    type="button" class="btn btn-danger btn-sm">
+                                                    data-id="{{ $value->id_jadwal_ngajar }}"
+                                                    data-bs-target="#firstmodal" type="button"
+                                                    class="btn btn-danger btn-sm">
                                                     Hapus
                                                 </button>
                                             </div>
@@ -65,7 +69,6 @@
                                     </tr>
                                 @endforeach
                             </tbody>
-
                         </table>
                     </div>
                 </div>
@@ -100,7 +103,6 @@
                 <button class="btn btn-danger" data-bs-target="#secondmodal" data-bs-toggle="modal"
                     data-bs-dismiss="modal">Batal</button>
                 <a href="" id="btn-hapus" class="btn btn-success">Hapus</a>
-                {{-- {{ URL(Session::get('prefix').'/pegawai-guru/hapus-data', ['nik'=>$pegawai->nik]) }} --}}
             </div>
         </div>
     </div>
@@ -116,9 +118,8 @@
 <script>
     $(document).on('click', '#id-btn-hapus', function() {
         let id = $(this).data('id');
-        let url = "{{ URL(Session::get('prefix') . '/ekskul/hapus-data/') }}" + "/" + id;
+        let url = "{{ URL(Session::get('prefix') . '/mata-pelajaran/delete-jadwal-ngajar/') }}" + "/" + id;
         $("#btn-hapus").attr('href', url);
-        $("#btn-hapus").show();
     });
 </script>
 

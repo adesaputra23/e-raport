@@ -65,6 +65,13 @@
             <div class="card-body">
                 <h4 class="card-title">Penilaian Sikap</h4>
                 <div class="table-responsive">
+                    <div class="mb-2">
+                        <p>Keterangan : </p>
+                        <ul style="margin-top: -15px;">
+                            <li><small><b>SB</b> : Sangat Baik</small></li>
+                            <li><small><b>PB</b> : Cukup Baik</small></li>
+                        </ul>
+                    </div>
                     <table class="table table-bordered mb-0" style="width: 100%;">
                         <thead>
                             <tr class="text-center">

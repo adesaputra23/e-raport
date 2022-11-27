@@ -1,9 +1,9 @@
 @php
-use App\User;
-use App\TahunAjaran;
-use App\Kurikulum;
-use App\RoleUser;
-use App\Http\Controllers\Controller;
+    use App\User;
+    use App\TahunAjaran;
+    use App\Kurikulum;
+    use App\RoleUser;
+    use App\Http\Controllers\Controller;
 @endphp
 
 @include('partials/main')
@@ -65,6 +65,8 @@ use App\Http\Controllers\Controller;
                                                 <th>Mata Pelajaran</th>
                                                 <th>NIK/Guru</th>
                                                 <th>Kode/Kelas</th>
+                                                <th>Semester</th>
+                                                <th>Tahun Ajaran</th>
                                                 {{-- <th>Kurikulum</th> --}}
                                                 @if (Controller::isAdminPage())
                                                     <th>Aksi</th>
@@ -80,7 +82,12 @@ use App\Http\Controllers\Controller;
                                                         <td>{{ $data->kode_mt }}</td>
                                                         <td>{{ $data->nama_mt }}</td>
                                                         <td>{{ $data->nik . ' - ' . $data->guru->nama }}</td>
-                                                        <td>{{ $data->kode_kelas . ' - ' . $data->kelas->ket_kelas }}</td>
+                                                        <td>{{ $data->kode_kelas . ' - ' . $data->kelas->ket_kelas }}
+                                                        </td>
+                                                        <td>{{ !empty($data->Semester) ? $data->Semester->nama_smester : '-' }}
+                                                        </td>
+                                                        <td>{{ !empty($data->TahunAjaran) ? $data->TahunAjaran->tahun_ajaran : '-' }}
+                                                        </td>
                                                         {{-- <td>{{$data->kurikulum->nama_kurikulum}}</td> --}}
                                                         @if (Controller::isAdminPage())
                                                             <td style="width: 10%">
@@ -119,6 +126,8 @@ use App\Http\Controllers\Controller;
                                                 <th>Mata Pelajaran</th>
                                                 <th>NIK/Guru</th>
                                                 <th>Kode/Kelas</th>
+                                                <th>Semester</th>
+                                                <th>Tahun Ajaran</th>
                                                 {{-- <th>Kurikulum</th> --}}
                                                 @if (Controller::isAdminPage())
                                                     <th>Aksi</th>
@@ -133,7 +142,12 @@ use App\Http\Controllers\Controller;
                                                         <td style="width: 15%;">{{ $data->kode_mt }}</td>
                                                         <td>{{ $data->nama_mt }}</td>
                                                         <td>{{ $data->nik . ' - ' . $data->guru->nama }}</td>
-                                                        <td>{{ $data->kode_kelas . ' - ' . $data->kelas->ket_kelas }}</td>
+                                                        <td>{{ $data->kode_kelas . ' - ' . $data->kelas->ket_kelas }}
+                                                        </td>
+                                                        <td>{{ !empty($data->Semester) ? $data->Semester->nama_smester : '-' }}
+                                                        </td>
+                                                        <td>{{ !empty($data->TahunAjaran) ? $data->TahunAjaran->tahun_ajaran : '-' }}
+                                                        </td>
                                                         {{-- <td>{{$data->kurikulum->nama_kurikulum}}</td> --}}
                                                         @if (Controller::isAdminPage())
                                                             <td style="width: 10%">
@@ -192,7 +206,8 @@ use App\Http\Controllers\Controller;
                                                         <td>{{ $data->kode_mt }}</td>
                                                         <td>{{ $data->nama_mt }}</td>
                                                         <td>{{ $data->nik . ' - ' . $data->guru->nama }}</td>
-                                                        <td>{{ $data->kode_kelas . ' - ' . $data->kelas->ket_kelas }}</td>
+                                                        <td>{{ $data->kode_kelas . ' - ' . $data->kelas->ket_kelas }}
+                                                        </td>
                                                         {{-- <td>{{$data->kurikulum->nama_kurikulum}}</td> --}}
                                                         @if (Controller::isAdminPage())
                                                             <td style="width: 10%">
@@ -246,7 +261,8 @@ use App\Http\Controllers\Controller;
                                                         <td style="width: 15%;">{{ $data->kode_mt }}</td>
                                                         <td>{{ $data->nama_mt }}</td>
                                                         <td>{{ $data->nik . ' - ' . $data->guru->nama }}</td>
-                                                        <td>{{ $data->kode_kelas . ' - ' . $data->kelas->ket_kelas }}</td>
+                                                        <td>{{ $data->kode_kelas . ' - ' . $data->kelas->ket_kelas }}
+                                                        </td>
                                                         {{-- <td>{{$data->kurikulum->nama_kurikulum}}</td> --}}
                                                         @if (Controller::isAdminPage())
                                                             <td style="width: 10%">
@@ -292,6 +308,8 @@ use App\Http\Controllers\Controller;
                                     <tr>
                                         <th>Nilai KKM</th>
                                         <th>Ketrangan</th>
+                                        <th>Semester</th>
+                                        <th>Tahun Ajaran</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -301,6 +319,10 @@ use App\Http\Controllers\Controller;
                                         <tr>
                                             <td>{{ $kkm->nilai_kkm }}</td>
                                             <td>{{ $kkm->desc_kkm }}</td>
+                                            <td>{{ !empty($kkm->Semester) ? $kkm->Semester->nama_smester : '-' }}
+                                            </td>
+                                            <td>{{ !empty($kkm->TahunAjaran) ? $kkm->TahunAjaran->tahun_ajaran : '-' }}
+                                            </td>
                                             <td>
                                                 <button data-bs-toggle="modal" id="id-btn-ubah-kkm"
                                                     data-getdata="{{ $kkm }}" data-bs-target="#ubah-kkm"
@@ -359,7 +381,7 @@ use App\Http\Controllers\Controller;
 {{-- modal ubah kkm --}}
 <!-- modal dialog -->
 <div class="modal fade" id="ubah-kkm" aria-hidden="true" aria-labelledby="..." tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Ubah Nilai KKM</h5>
@@ -386,6 +408,34 @@ use App\Http\Controllers\Controller;
                         <label for="example-text-input" class="col-sm-4 col-form-label">Keterangan</label>
                         <div class="col-sm-8">
                             <textarea name="desc_kkm" id="desc-kkm" class="form-control" rows="3" placeholder="Keterangan"></textarea>
+                        </div>
+                    </div>
+
+                    {{-- Semester  --}}
+                    <div class="row mb-3">
+                        <label for="example-text-input" class="col-sm-4 col-form-label">Semester*</label>
+                        <div class="col-sm-8">
+                            <select name="semester" id="semester" class="form-control" required>
+                                <option value="" selected disabled>Pilih Semester</option>
+                                @foreach ($list_semester as $sm => $semester)
+                                    <option value="{{ $semester->id }}">{{ $semester->nama_smester }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    {{-- Tahun Ajaran  --}}
+                    <div class="row mb-3">
+                        <label for="example-text-input" class="col-sm-4 col-form-label">Tahun Ajaran*</label>
+                        <div class="col-sm-8">
+                            <select name="tahun_ajaran" id="tahun_ajaran" class="form-control" required>
+                                <option value="" selected disabled>Pilih Tahun Ajaran</option>
+                                @foreach ($list_tahun_ajaran as $sm => $tahun_ajaran)
+                                    <option value="{{ $tahun_ajaran->id_tahun_ajaran }}">
+                                        {{ $tahun_ajaran->tahun_ajaran }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
 
@@ -424,6 +474,8 @@ use App\Http\Controllers\Controller;
         $('#id').val(is_data.id);
         $('#nilai-kkm').val(is_data.nilai_kkm);
         $('#desc-kkm').val(is_data.desc_kkm);
+        $('#semester').val(is_data.id_semester);
+        $('#tahun_ajaran').val(is_data.id_tahun_ajaran);
         console.log(is_data);
         // let url = "{{ URL(Session::get('prefix') . '/mata-pelajaran/hapus-data/') }}"+"/"+id;
         // $("#btn-hapus").attr('href', url);

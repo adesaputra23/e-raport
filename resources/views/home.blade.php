@@ -70,6 +70,11 @@
                     @include('home_wali_kelas')
                 @endif
 
+                {{-- show pengumuman siswa / wali murid --}}
+                @if (RoleUser::CheckRole()->user_role === RoleUser::WaliMurid)
+                    @include('home_wali_murid')
+                @endif
+
             </div>
             {{-- end count data master --}}
 
