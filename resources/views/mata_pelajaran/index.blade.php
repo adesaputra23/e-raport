@@ -81,7 +81,8 @@
                                                     <tr>
                                                         <td>{{ $data->kode_mt }}</td>
                                                         <td>{{ $data->nama_mt }}</td>
-                                                        <td>{{ $data->nik . ' - ' . $data->guru->nama }}</td>
+                                                        <td>{{ $data->nik . ' - ' . (!empty($data->guru) ? $data->guru->nama : '-') }}
+                                                        </td>
                                                         <td>{{ $data->kode_kelas . ' - ' . $data->kelas->ket_kelas }}
                                                         </td>
                                                         <td>{{ !empty($data->Semester) ? $data->Semester->nama_smester : '-' }}
@@ -141,7 +142,8 @@
                                                     <tr>
                                                         <td style="width: 15%;">{{ $data->kode_mt }}</td>
                                                         <td>{{ $data->nama_mt }}</td>
-                                                        <td>{{ $data->nik . ' - ' . $data->guru->nama }}</td>
+                                                        <td>{{ $data->nik . ' - ' . (!empty($data->guru) ? $data->guru->nama : '-') }}
+                                                        </td>
                                                         <td>{{ $data->kode_kelas . ' - ' . $data->kelas->ket_kelas }}
                                                         </td>
                                                         <td>{{ !empty($data->Semester) ? $data->Semester->nama_smester : '-' }}
@@ -205,7 +207,8 @@
                                                     <tr>
                                                         <td>{{ $data->kode_mt }}</td>
                                                         <td>{{ $data->nama_mt }}</td>
-                                                        <td>{{ $data->nik . ' - ' . $data->guru->nama }}</td>
+                                                        <td>{{ $data->nik . ' - ' . (!empty($data->guru) ? $data->guru->nama : '-') }}
+                                                        </td>
                                                         <td>{{ $data->kode_kelas . ' - ' . $data->kelas->ket_kelas }}
                                                         </td>
                                                         {{-- <td>{{$data->kurikulum->nama_kurikulum}}</td> --}}
@@ -260,7 +263,8 @@
                                                     <tr>
                                                         <td style="width: 15%;">{{ $data->kode_mt }}</td>
                                                         <td>{{ $data->nama_mt }}</td>
-                                                        <td>{{ $data->nik . ' - ' . $data->guru->nama }}</td>
+                                                        <td>{{ $data->nik . ' - ' . !empty($data->guru) ? $data->guru->nama : '-' }}
+                                                        </td>
                                                         <td>{{ $data->kode_kelas . ' - ' . $data->kelas->ket_kelas }}
                                                         </td>
                                                         {{-- <td>{{$data->kurikulum->nama_kurikulum}}</td> --}}

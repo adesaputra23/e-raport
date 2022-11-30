@@ -133,7 +133,7 @@
                     <div class="card-body border border-primary">
                         <div class="d-flex">
                             <div class="flex-grow-1">
-                                <p class="text-truncate font-size-14 mb-2" style="color: black;">Guru & Pegawai</p>
+                                <p class="text-truncate font-size-14 mb-2" style="color: black;">Pegawai</p>
                                 <h4 class="mb-2">{{ $count_guru_pegawai }}</h4>
                             </div>
                             <div class="avatar-sm">

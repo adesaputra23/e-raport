@@ -53,7 +53,9 @@
                                     <select class="form-control" name="kelas" id="kelas">
                                         <option value="">Pilih Kelas</option>
                                         @foreach ($list_kelas as $item => $kelas)
-                                            <option value="{{ $kelas->kode_kelas }}">{{ $kelas->kode_kelas }} -
+                                            <option value="{{ $kelas->kode_kelas }}"
+                                                {{ request()->kelas == $kelas->kode_kelas ? 'selected' : '' }}>
+                                                {{ $kelas->kode_kelas }} -
                                                 {{ $kelas->ket_kelas }}
                                             </option>
                                         @endforeach
@@ -63,6 +65,14 @@
                                     <label for="">Pilih Siswa</label>
                                     <select class="form-control" name="nisn" id="nisn">
                                         <option value="">Pilih Siswa</option>
+                                        @if (!empty(request()->kelas))
+                                            @foreach ($list_siswa as $key => $siswa)
+                                                <option value="{{ $siswa->nisn }}"
+                                                    {{ request()->nisn == $siswa->nisn ? 'selected' : '' }}>
+                                                    {{ $siswa->nisn . '/' . $siswa->nis . ' - ' . $siswa->nama }}
+                                                </option>
+                                            @endforeach
+                                        @endif
                                     </select>
                                 </div>
                             @elseif(RoleUser::CheckRole()->user_role === RoleUser::WaliMurid)

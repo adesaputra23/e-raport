@@ -127,7 +127,7 @@
                     <li>
                         <a href="{{ URL(Session::get('prefix') . '/pegawai-guru/lihat-data') }}" class="waves-effect">
                             <i class="fas fa-user-tie"></i>
-                            <span>Guru & Pegawai</span>
+                            <span>Pegawai</span>
                         </a>
                     </li>
 
@@ -153,7 +153,8 @@
                             <span>User</span>
                         </a>
                         <ul class="sub-menu" aria-expanded="false">
-                            <li><a href="{{ URL(Session::get('prefix') . '/user/lihat-data/?menu=pegawai') }}">Guru</a>
+                            <li><a
+                                    href="{{ URL(Session::get('prefix') . '/user/lihat-data/?menu=pegawai') }}">Pegawai</a>
                             </li>
                             <li><a
                                     href="{{ URL(Session::get('prefix') . '/user/lihat-data/?menu=siswa / wali murid') }}">Siswa
@@ -237,13 +238,13 @@
                             <span>Monitoring Absensi</span>
                         </a>
                     </li>
-                    {{-- <li>
+                    <li>
                         <a href="{{ URL(Session::get('prefix') . '/pemlajaran/monitoring-pembelajaran') }}"
                             class="waves-effect">
-                            <i class="fas fa-user-graduate"></i>
+                            <i class="fas fa-indent"></i>
                             <span>Monitoring Penilaian</span>
                         </a>
-                    </li> --}}
+                    </li>
                     <li>
                         <a href="{{ URL(Session::get('prefix') . '/nilai-raport') }}" class="waves-effect">
                             <i class="fas fa-file-alt"></i>
@@ -279,13 +280,13 @@
                         </a>
                     </li>
 
-                    {{-- <li>
+                    <li>
                         <a href="{{ URL(Session::get('prefix') . '/pemlajaran/monitoring-pembelajaran') }}"
                             class="waves-effect">
-                            <i class="fas fa-user-graduate"></i>
+                            <i class="fas fa-indent"></i>
                             <span>Monitoring Penilaian</span>
                         </a>
-                    </li> --}}
+                    </li>
 
                     <li>
                         <a href="{{ URL(Session::get('prefix') . '/nilai-raport') }}" class="waves-effect">
