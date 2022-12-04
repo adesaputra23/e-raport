@@ -788,7 +788,12 @@ class PenilaianControlle extends Controller
             ['id_semster', $id_semester],
             ['nilai_pengetahuan', '!=', 0]
         ];
-        $get_kompetensi = KompetensiDasar::where('id_semester', $id_semester)->where('type', 'Pengetahuan')->get()->groupby('kode_mt'); 
+        $kode_mt = MataPelajaran::where('kode_kelas', $kode_kelas)
+            ->where('id_semester', $id_semester)
+            // ->where('id_tahun_ajaran', TahunAjaran::GetAktiveTahunAjaran()->id_tahun_ajaran)
+            ->where('kode_kurikulum', Kurikulum::GetAktiveKurikulum()->kode_kurikulum)
+            ->pluck('kode_mt')->toArray('kode_mt');
+        $get_kompetensi = KompetensiDasar::where('id_semester', $id_semester)->whereIn('kode_mt', $kode_mt)->where('type', 'Pengetahuan')->get()->groupby('kode_mt'); 
         $list_kode_kd = [];
         $list_arr_data = [];
         foreach ($get_kompetensi as $key => $value) {
@@ -809,7 +814,12 @@ class PenilaianControlle extends Controller
             ['id_semster', $id_semester],
             ['nilai_keterampilan', '!=', 0]
         ];
-        $get_kompetensi = KompetensiDasar::where('id_semester', $id_semester)->where('type', 'Keterampilan')->get()->groupby('kode_mt'); 
+        $kode_mt = MataPelajaran::where('kode_kelas', $kode_kelas)
+            ->where('id_semester', $id_semester)
+            // ->where('id_tahun_ajaran', TahunAjaran::GetAktiveTahunAjaran()->id_tahun_ajaran)
+            ->where('kode_kurikulum', Kurikulum::GetAktiveKurikulum()->kode_kurikulum)
+            ->pluck('kode_mt')->toArray('kode_mt');
+        $get_kompetensi = KompetensiDasar::where('id_semester', $id_semester)->whereIn('kode_mt', $kode_mt)->where('type', 'Keterampilan')->get()->groupby('kode_mt'); 
         $list_kode_kd = [];
         $list_arr_data = [];
         foreach ($get_kompetensi as $key => $value) {

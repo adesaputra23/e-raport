@@ -108,7 +108,7 @@
                                         </thead>
                                         <tbody>
                                             @foreach ($data_nilai_pengetahuan as $mapel => $value)
-                                                @if (count($value) > 1)
+                                                @if (count($value) > 0)
                                                     <tr>
                                                         <td rowspan="{{ count($value) + 2 }}">
                                                             {{ MataPelajaran::GetbyId($mapel)->nama_mt }}</td>
@@ -180,7 +180,7 @@
                                         </thead>
                                         <tbody>
                                             @foreach ($data_nilai_keterampilan as $mapel_nilai_keterampilan => $nilai_keterampilan)
-                                                @if (count($nilai_keterampilan) > 1)
+                                                @if (count($nilai_keterampilan) > 0)
                                                     <tr>
                                                         <td rowspan="{{ count($nilai_keterampilan) + 2 }}">
                                                             {{ MataPelajaran::GetbyId($mapel_nilai_keterampilan)->nama_mt }}

@@ -52,9 +52,9 @@
                                     <select class="form-control form-control-sm" name="status_absensi"
                                         id="status_absesi">
                                         <option value="" selected>All Data</option>
-                                        <option value="Alpa"
+                                        {{-- <option value="Alpa"
                                             {{ Request::get('status_absensi') == 'Alpa' ? 'selected' : '' }}>Alpa
-                                        </option>
+                                        </option> --}}
                                         <option value="Ijin"
                                             {{ Request::get('status_absensi') == 'Ijin' ? 'selected' : '' }}>Ijin
                                         </option>
@@ -201,7 +201,7 @@
                         <select class="form-control form-control-sm" name="status_absensi" id="status_absensi"
                             required>
                             <option value="" selected disabled>Pilih Status</option>
-                            <option value="Alpa">Alpa</option>
+                            {{-- <option value="Alpa">Alpa</option> --}}
                             <option value="Ijin">Ijin</option>
                             <option value="Sakit">Sakit</option>
                             <option value="Tanpa Keterangan">Tanpa Keterangan</option>

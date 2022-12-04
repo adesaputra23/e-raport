@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\TahunAjaran;
 
 class Siswa extends Model
 {
@@ -21,6 +22,11 @@ class Siswa extends Model
     public function SisiwaKelas()
     {
         return $this->hasOne('App\KelasSiswa', 'nisn', 'nisn');
+    }
+
+    public function SisiwaKelasByTahunAjaran()
+    {
+        return $this->hasOne('App\KelasSiswa', 'nisn', 'nisn')->where('id_tahun_ajaran', TahunAjaran::GetAktiveTahunAjaran()->id_tahun_ajaran);
     }
 
     public function WaliSiswa()

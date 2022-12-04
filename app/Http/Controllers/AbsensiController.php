@@ -72,7 +72,7 @@ class AbsensiController extends Controller
             }
             $save->nisn             = $request->nisn;
             $save->nama_siswa       = Siswa::GetSiswaByNisn($request->nisn)->nama;
-            $save->kode_kelas       = Siswa::GetSiswaByNisn($request->nisn)->SisiwaKelas->kode_kelas;
+            $save->kode_kelas       = Siswa::GetSiswaByNisn($request->nisn)->SisiwaKelasByTahunAjaran->kode_kelas;
             $save->id_tahun_ajaran  = TahunAjaran::GetAktiveTahunAjaran()->id_tahun_ajaran;
             $save->id_semester      = Semester::GetAktifSemester()->id;
             $save->kode_kurikulum   = Kurikulum::GetAktiveKurikulum()->kode_kurikulum;

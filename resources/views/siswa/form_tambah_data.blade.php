@@ -359,10 +359,16 @@
                                                 class="form-select" aria-label="Default select example">
                                                 <option selected="" disabled>Pilih Jenis Pekerjaan</option>
                                                 @foreach ($list_pekerjaan as $p_ayah_keys => $pekerjaan_ayah)
-                                                    <option value="{{ $p_ayah_keys }}"
-                                                        {{ $p_ayah_keys == $data_siswa->WaliSiswa->pekerjaan_ayah ? 'selected' : '' }}>
-                                                        {{ $pekerjaan_ayah }}
-                                                    </option>
+                                                    @if (!empty($data_siswa->WaliSiswa))
+                                                        <option value="{{ $p_ayah_keys }}"
+                                                            {{ $p_ayah_keys == $data_siswa->WaliSiswa->pekerjaan_ayah ? 'selected' : '' }}>
+                                                            {{ $pekerjaan_ayah }}
+                                                        </option>
+                                                    @else
+                                                        <option value="{{ $p_ayah_keys }}">
+                                                            {{ $pekerjaan_ayah }}
+                                                        </option>
+                                                    @endif
                                                 @endforeach
                                             </select>
                                         </div>
@@ -405,10 +411,16 @@
                                                 class="form-select" aria-label="Default select example">
                                                 <option selected="" disabled>Pilih Jenis Pendidikan</option>
                                                 @foreach ($list_pendidikan as $pn_ayah_keys => $pendidikan_ayah)
-                                                    <option value="{{ $pn_ayah_keys }}"
-                                                        {{ $pn_ayah_keys == $data_siswa->WaliSiswa->pendidikan_ayah ? 'selected' : '' }}>
-                                                        {{ $pendidikan_ayah }}
-                                                    </option>
+                                                    @if (!empty($data_siswa->WaliSiswa))
+                                                        <option value="{{ $pn_ayah_keys }}"
+                                                            {{ $pn_ayah_keys == $data_siswa->WaliSiswa->pendidikan_ayah ? 'selected' : '' }}>
+                                                            {{ $pendidikan_ayah }}
+                                                        </option>
+                                                    @else
+                                                        <option value="{{ $pn_ayah_keys }}">
+                                                            {{ $pendidikan_ayah }}
+                                                        </option>
+                                                    @endif
                                                 @endforeach
                                             </select>
                                         </div>
@@ -466,9 +478,14 @@
                                                 class="form-select" aria-label="Default select example">
                                                 <option selected="" disabled>Pilih Jenis Pekerjaan</option>
                                                 @foreach ($list_pekerjaan as $p_ibu_keys => $pekerjaan_ibu)
-                                                    <option value="{{ $p_ibu_keys }}"
-                                                        {{ $p_ayah_keys == $data_siswa->WaliSiswa->pekerjaan_ibu ? 'selected' : '' }}>
-                                                        {{ $pekerjaan_ibu }}</option>
+                                                    @if (!empty($data_siswa->WaliSiswa))
+                                                        <option value="{{ $p_ibu_keys }}"
+                                                            {{ $p_ayah_keys == $data_siswa->WaliSiswa->pekerjaan_ibu ? 'selected' : '' }}>
+                                                            {{ $pekerjaan_ibu }}</option>
+                                                    @else
+                                                        <option value="{{ $p_ibu_keys }}">
+                                                            {{ $pekerjaan_ibu }}</option>
+                                                    @endif
                                                 @endforeach
                                             </select>
                                         </div>
@@ -511,10 +528,16 @@
                                                 class="form-select" aria-label="Default select example">
                                                 <option selected="" disabled>Pilih Jenis Pendidikan</option>
                                                 @foreach ($list_pendidikan as $pn_ibu_keys => $pendidikan_ibu)
-                                                    <option value="{{ $pn_ibu_keys }}"
-                                                        {{ $pn_ayah_keys == $data_siswa->WaliSiswa->pendidikan_ibu ? 'selected' : '' }}>
-                                                        {{ $pendidikan_ibu }}
-                                                    </option>
+                                                    @if (!empty($data_siswa->WaliSiswa))
+                                                        <option value="{{ $pn_ibu_keys }}"
+                                                            {{ $pn_ayah_keys == $data_siswa->WaliSiswa->pendidikan_ibu ? 'selected' : '' }}>
+                                                            {{ $pendidikan_ibu }}
+                                                        </option>
+                                                    @else
+                                                        <option value="{{ $pn_ibu_keys }}">
+                                                            {{ $pendidikan_ibu }}
+                                                        </option>
+                                                    @endif
                                                 @endforeach
                                             </select>
                                         </div>
@@ -572,10 +595,16 @@
                                                 class="form-select" aria-label="Default select example">
                                                 <option selected="" disabled>Pilih Jenis Pekerjaan</option>
                                                 @foreach ($list_pekerjaan as $p_wali_keys => $pekerjaan_wali)
-                                                    <option value="{{ $p_wali_keys }}"
-                                                        {{ $p_ayah_keys == $data_siswa->WaliSiswa->pekerjaan_wali ? 'selected' : '' }}>
-                                                        {{ $pekerjaan_wali }}
-                                                    </option>
+                                                    @if (!empty($data_siswa->WaliSiswa))
+                                                        <option value="{{ $p_wali_keys }}"
+                                                            {{ $p_ayah_keys == $data_siswa->WaliSiswa->pekerjaan_wali ? 'selected' : '' }}>
+                                                            {{ $pekerjaan_wali }}
+                                                        </option>
+                                                    @else
+                                                        <option value="{{ $p_wali_keys }}">
+                                                            {{ $pekerjaan_wali }}
+                                                        </option>
+                                                    @endif
                                                 @endforeach
                                             </select>
                                         </div>
@@ -618,10 +647,16 @@
                                                 class="form-select" aria-label="Default select example">
                                                 <option selected="" disabled>Pilih Jenis Pendidikan</option>
                                                 @foreach ($list_pendidikan as $pn_wali_keys => $pendidikan_wali)
-                                                    <option value="{{ $pn_wali_keys }}"
-                                                        {{ $pn_ayah_keys == $data_siswa->WaliSiswa->pendidikan_wali ? 'selected' : '' }}>
-                                                        {{ $pendidikan_wali }}
-                                                    </option>
+                                                    @if (!empty($data_siswa->WaliSiswa))
+                                                        <option value="{{ $pn_wali_keys }}"
+                                                            {{ $pn_ayah_keys == $data_siswa->WaliSiswa->pendidikan_wali ? 'selected' : '' }}>
+                                                            {{ $pendidikan_wali }}
+                                                        </option>
+                                                    @else
+                                                        <option value="{{ $pn_wali_keys }}">
+                                                            {{ $pendidikan_wali }}
+                                                        </option>
+                                                    @endif
                                                 @endforeach
                                             </select>
                                         </div>
