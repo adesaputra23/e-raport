@@ -2,8 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Absensi;
 use App\Kelas;
 use App\KelasSiswa;
+use App\PnBBdanTB;
+use App\PnEkskul;
+use App\PnKeterampilan;
+use App\PnKondisiKesehatan;
+use App\PnPengetahuan;
+use App\PnPrestasi;
+use App\PnSaran;
+use App\PnSikap;
+use App\PnSmFm;
 use App\RoleUser;
 use App\Siswa;
 use App\TahunAjaran;
@@ -18,11 +28,11 @@ class SiswaController extends Controller
     public function LihatData()
     {
         if (RoleUser::CheckRole()->user_role === RoleUser::Admin) {
-            $list_siswa = Siswa::get();
+            $list_siswa = Siswa::with('SisiwaKelas')->get();
         }elseif (RoleUser::CheckRole()->user_role === RoleUser::WaliKelas) {
             $nik_wali_kelas = Auth::user()->user_code;
             $kelas = Kelas::where('nik', $nik_wali_kelas)->first();
-            $list_siswa = Siswa::whereHas('sisiwakelas', function($q) use ($kelas)
+            $list_siswa = Siswa::with('SisiwaKelas')->whereHas('sisiwakelas', function($q) use ($kelas)
                 {
                     $q->where('kode_kelas', $kelas->kode_kelas);
                     $q->where('id_tahun_ajaran', TahunAjaran::GetAktiveTahunAjaran()->id_tahun_ajaran);  
@@ -263,5 +273,55 @@ class SiswaController extends Controller
     {   
         $siswa = Siswa::with('WaliSiswa')->where('nisn', $nisn)->first();
         return view('siswa/detail_data', compact('siswa'));
+    }
+
+    public function ubahNisn(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $query_seacrh = [['nisn', $request->nis_lama]];
+            $query_updated = ['nisn' => $request->nis_baru];
+            // -> tabel_siswa
+            Siswa::where($query_seacrh)->update($query_updated);
+            // -> tabel_siswa_kelas
+            KelasSiswa::where($query_seacrh)->update($query_updated);
+            // -> tabel_wali_siswa
+            WaliSiswa::where($query_seacrh)->update($query_updated);
+            // -> tabel_user
+            User::where('user_code', $request->nis_lama)->update(
+                [
+                    'user_code' => $request->nis_baru,
+                    'password' => bcrypt($request->nis_baru)
+                ]
+            );
+            // -> roles_tabel
+            RoleUser::where('user_code', $request->nis_lama)->update(['user_code' => $request->nis_baru]);
+            // -> pn_berat_dan_tinggi_badan
+            PnBBdanTB::where($query_seacrh)->update($query_updated);
+            // -> pn_ekskul
+            PnEkskul::where($query_seacrh)->update($query_updated);
+            // -> pn_keterampilan
+            PnKeterampilan::where($query_seacrh)->update($query_updated);
+            // -> pn_kondisi_kesehatan
+            PnKondisiKesehatan::where($query_seacrh)->update($query_updated);
+            // -> pn_pengetatahuan
+            PnPengetahuan::where($query_seacrh)->update($query_updated);
+            // -> pn_prestasi
+            PnPrestasi::where($query_seacrh)->update($query_updated);
+            // -> pn_saran
+            PnSaran::where($query_seacrh)->update($query_updated);
+            // -> pn_sikap
+            PnSikap::where($query_seacrh)->update($query_updated);
+            // -> tabel_absensi
+            Absensi::where($query_seacrh)->update($query_updated);
+            // -> tabel_pn_fm_sm
+            PnSmFm::where($query_seacrh)->update($query_updated);
+            DB::commit();
+            return redirect()->route('siswa.lihat.data.admin')->with('success', 'Data berhasil di update');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->route('siswa.lihat.data.admin')->with('error', 'Data gagal di hapus -> '.$th->getMessage().'/'.$th->getLine());
+        }
+
     }
 }

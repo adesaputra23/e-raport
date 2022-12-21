@@ -89,16 +89,23 @@
                                     <div class="row mb-3">
                                         <label for="example-text-input" class="col-sm-2 col-form-label">NISN *</label>
                                         <div class="col-sm-10">
-                                            <input name="nisn"
-                                                value="{{ $data_siswa != null ? $data_siswa->nisn : old('nisn') }}"
-                                                class="form-control" type="text" placeholder="NISN" id="nisn"
-                                                @if ($data_siswa != null) readonly @endif required>
-                                            @error('nisn')
-                                                <small class="text-danger">
-                                                    <i class="fa fa-warning"></i>
-                                                    {{ $message }}
-                                                </small>
-                                            @enderror
+                                            <div class="input-group">
+                                                <input name="nisn"
+                                                    value="{{ $data_siswa != null ? $data_siswa->nisn : old('nisn') }}"
+                                                    class="form-control" type="text" placeholder="NISN"
+                                                    id="nisn" @if ($data_siswa != null) readonly @endif
+                                                    required>
+                                                @if ($data_siswa != null)
+                                                    <button class="btn btn-outline-secondary" type="button"
+                                                        id="button-ubah-nisn">Ubah</button>
+                                                @endif
+                                                @error('nisn')
+                                                    <small class="text-danger">
+                                                        <i class="fa fa-warning"></i>
+                                                        {{ $message }}
+                                                    </small>
+                                                @enderror
+                                            </div>
                                         </div>
                                     </div>
 
@@ -108,12 +115,7 @@
                                         <div class="col-sm-10">
                                             <input name="nis"
                                                 value="{{ $data_siswa != null ? $data_siswa->nis : old('nis') }}"
-                                                class="form-control" type="text" placeholder="NIS" id="nis"
-                                                {{-- @if ($data_siswa != null)
-                                                        readonly
-                                                    @endif
-    
-                                                    required --}}>
+                                                class="form-control" type="text" placeholder="NIS" id="nis">
                                             @error('nis')
                                                 <small class="text-danger">
                                                     <i class="fa fa-warning"></i>
@@ -707,11 +709,61 @@
 </div>
 <!-- END layout-wrapper -->
 
+{{-- modal --}}
+<div class="modal fade" id="modal-ubah-nisn" aria-hidden="true" aria-labelledby="..." tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ubah NISN</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ route('siswa.ubah.nisn.admin') }}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="text-conten">
+                        {{-- nis lama --}}
+                        <div class="row mb-3">
+                            <label for="example-text-input" class="col-sm-3 col-form-label">NISN LAMA</label>
+                            <div class="col-sm-9">
+                                <input name="nis_lama" value="{{ $data_siswa != null ? $data_siswa->nisn : '' }}"
+                                    class="form-control" type="number" placeholder="NIS" id="nis" readonly>
+                            </div>
+                        </div>
+
+                        {{-- nis baru --}}
+                        <div class="row mb-3">
+                            <label for="example-text-input" class="col-sm-3 col-form-label">NISN BARU</label>
+                            <div class="col-sm-9">
+                                <input name="nis_baru" value="" class="form-control" type="number"
+                                    placeholder="NISN BARU" id="nis" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!-- Toogle to second dialog -->
+                    <button class="btn btn-danger batal" data-bs-target="#secondmodal" data-bs-toggle="modal"
+                        data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-success">Simpan</button>
+                    {{-- {{ URL(Session::get('prefix').'/pegawai-guru/hapus-data', ['nik'=>$pegawai->nik]) }} --}}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{{-- end modal --}}
+
+
 @include('partials/right-sidebar')
 
 @include('partials/vendor-scripts')
 
 <script src={{ asset('assets/js/app.js') }}></script>
 </body>
+<script>
+    $('#button-ubah-nisn').on('click', function(e) {
+        $('#modal-ubah-nisn').modal('show');
+    })
+</script>
 
 </html>

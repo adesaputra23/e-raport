@@ -75,6 +75,9 @@ class RaportController extends Controller
         $data_TBdanBB = [];
         $data_kodisi_kesehatan = [];
         $data_prestasi = [];
+        if (empty($kelas)) {
+            $kelas = (object)['kode_kelas' => null];
+        }
         if ($kurikulum->kode_kurikulum === Kurikulum::K13) {
             if (!empty($request->input())) {
                 $data_pn_sikap = self::getPnSikap($request->nisn, $kelas->kode_kelas);

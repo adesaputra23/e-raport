@@ -150,7 +150,9 @@
                 </button>
                 <div class="dropdown-menu dropdown-menu-end">
                     <!-- item-->
-                    {{-- <a class="dropdown-item" href="#"><i class="ri-user-line align-middle me-1"></i> Profile</a> --}}
+                    <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i
+                            class="ri-settings-3-line align-middle me-1"></i>
+                        Ubah Password</button>
                     @if (Controller::isAdminPage())
                         <a class="dropdown-item text-danger" href={{ route('logout.admin') }}><i
                                 class="ri-shut-down-line align-middle me-1 text-danger"></i> Logout</a>

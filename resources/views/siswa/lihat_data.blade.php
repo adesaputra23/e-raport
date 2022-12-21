@@ -62,8 +62,10 @@
                                                     <a href="{{ URL(Session::get('prefix') . '/siswa/form-tambah-data', ['nisn' => $siswa->nisn]) }}"
                                                         class="btn btn-warning btn-sm">Ubah</a>
                                                     <button data-bs-toggle="modal" id="id-btn-hapus"
-                                                        data-nisn="{{ $siswa->nisn }}" data-bs-target="#firstmodal"
-                                                        type="button" class="btn btn-danger btn-sm">
+                                                        data-nisn="{{ $siswa->nisn }}"
+                                                        data-siswa-kelas="{{ $siswa->SisiwaKelas }}"
+                                                        data-bs-target="#firstmodal" type="button"
+                                                        class="btn btn-danger btn-sm">
                                                         Hapus
                                                     </button>
                                                 @endif
@@ -102,11 +104,11 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p class="text-center">Anda yakin ingin menghapus data ini?</p>
+                <div class="text-conten"></div>
             </div>
             <div class="modal-footer">
                 <!-- Toogle to second dialog -->
-                <button class="btn btn-danger" data-bs-target="#secondmodal" data-bs-toggle="modal"
+                <button class="btn btn-danger batal" data-bs-target="#secondmodal" data-bs-toggle="modal"
                     data-bs-dismiss="modal">Batal</button>
                 <a href="" id="btn-hapus" class="btn btn-success">Hapus</a>
                 {{-- {{ URL(Session::get('prefix').'/pegawai-guru/hapus-data', ['nik'=>$pegawai->nik]) }} --}}
@@ -124,9 +126,27 @@
 </body>
 <script>
     $(document).on('click', '#id-btn-hapus', function() {
+        let siswaKelas = $(this).data('siswa-kelas');
         let nisn = $(this).data('nisn');
         let url = "{{ URL(Session::get('prefix') . '/siswa/hapus-data/') }}" + "/" + nisn;
         $("#btn-hapus").attr('href', url);
+        if (siswaKelas) {
+            $('.modal .modal-title').text('Warnig!');
+            $('.modal .text-conten').html(
+                `<div class="d-flex justify-content-center" style="font-size:90px;"><i class="dripicons-warning"></i></div>` +
+                `<p class="text-center" style="margin-top: -20px;">Siswa dengan Nisn <b>${siswaKelas.nisn}</b> tidak bisa di hapus karena terkait dengan data lain.</p>` +
+                `<p class="text-center" style="margin-top: -13px;">Harap hapus data di Menu Maping Siswa terlebih dahulu!</p>`
+            );
+            $('.modal #btn-hapus').css('display', 'none');
+            $('.modal .batal').text('Keluar');
+        } else {
+            $('.modal .modal-title').text('Hapus Data');
+            $('.modal .text-conten').html(
+                `<p class="text-center">Anda yakin ingin menghapus data ini?</p>`
+            );
+            $('.modal #btn-hapus').css('display', 'block');
+            $('.modal .batal').text('Batal');
+        }
     });
 </script>
 

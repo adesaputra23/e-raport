@@ -70,7 +70,6 @@ Route::get('cetak-raport/{nisn}/{kode_kelas}', 'RaportController@CetakRaport')->
 Route::get('/pemlajaran/monitoring-pembelajaran', 'PenilaianControlle@MonitoringPembelajaran')->name('monitoring.pembelajaran');
 Route::get('/pemlajaran/detail-penilaian/{nisn}/{kode_kelas}/{id_semester}', 'PenilaianControlle@DetailPenilaian')->name('detail.penilaian');
 
-
 Route::group(['middleware'], function () {
     Route::get('/home', 'HomeController@index')->name('home');
 });
@@ -108,6 +107,7 @@ Route::prefix('admin','middleware')->group(function(){
     Route::post('/siswa/simpan-data', 'SiswaController@SimpanData')->name('siswa.simpan.data.admin');
     Route::get('/siswa/hapus-data/{nisn}', 'SiswaController@hapusData')->name('siswa.hapus.data.admin');
     Route::get('/siswa/detail-data/{nisn}', 'SiswaController@detailData')->name('siswa.detail.data.admin');
+    Route::post('/siswa/ubah-nisn', 'SiswaController@ubahNisn')->name('siswa.ubah.nisn.admin');
 
     // tahun ajaran
     Route::get('/tahun-ajaran/lihat-data', 'TahunAjaranController@LihatData')->name('tahun.ajaran.lihat.data.admin');
@@ -218,6 +218,13 @@ Route::get('/absensi/ajax-get-siswa', 'AbsensiController@AjaxGetSiswa');
 
 //ajax get siswa kelas
 Route::get('/raport/ajax-get-siswa-kelas', 'RaportController@AjaxGetSiswaKelas');
+
+// Ubah password
+Route::post('/user/ubah-password', 'Controller@UbahPassword')->name('ubah.password');
+// reset password
+Route::get('/user/reset-password/{user_code}', 'Controller@ResetPassword')->name('reset.password');
+
+
 
 
 
