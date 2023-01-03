@@ -5,6 +5,7 @@
     use App\RoleUser;
     use App\Siswa;
     use App\Http\Controllers\RaportController;
+    use App\Kelas;
 @endphp
 
 @include('partials/main')
@@ -292,6 +293,36 @@
                                         </table>
                                     </div>
                                 </div>
+
+                                {{-- Keterangan --}}
+                                {{-- keterangan kenaikan kelas --}}
+                                @if ($is_data->Semester->id == Semester::Genap)
+                                    @php
+                                        $get_CekKenaikanKelas = RaportController::CekKenaikanKelas($data_nilai, $is_data->kelas);
+                                        $kelas_name = Kelas::getbyId($get_CekKenaikanKelas['status_kelas']);
+                                    @endphp
+                                    <div>
+                                        <div class="mt-4">
+                                            <h6>Keterangan :</h6>
+                                            <div class="mt-2">
+                                                <table class="table table-bordered mb-0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                Berdasarkan pencapaian seluruh kompetensi, peserta
+                                                                didik dinyatakan:
+                                                                <h6
+                                                                    style="color: {{ $get_CekKenaikanKelas['color'] }};">
+                                                                    {{ $get_CekKenaikanKelas['status_text'] . (empty($kelas_name) ? $get_CekKenaikanKelas['status_kelas'] : $kelas_name->kelas) }}
+                                                                </h6>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
 
                                 {{-- end --}}
 

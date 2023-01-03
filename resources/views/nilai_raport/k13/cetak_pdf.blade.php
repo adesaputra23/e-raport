@@ -41,6 +41,8 @@
 
 @php
     use App\Http\Controllers\RaportController;
+    use App\Semester;
+    use App\Kelas;
     $date = date('d M Y');
 @endphp
 
@@ -296,10 +298,26 @@
         @endforeach
     </table>
     <p><b>H. Ketidakhadiran</b></p>
-    <table style="border-collapse: collapse; padding: 4px; width: 50%; margin-top: -10px; font-size: 13px;">
+    <table style="border-collapse: collapse; padding: 4px; width: 100%; margin-top: -10px; font-size: 13px;">
         <tr>
-            <td class="border">Sakit</td>
-            <td class="border text-center">{{ $data_absensi['sakit'] }} hari</td>
+            <td class="border" style="width: 40%;">Sakit</td>
+            <td class="border text-center" style="width: 10%;">{{ $data_absensi['sakit'] }} hari</td>
+            @if ($data_siswa->Semester->id == Semester::Genap)
+                @php
+                    $get_CekKenaikanKelas = RaportController::CekKenaikanKelas($data_nilai, $data_siswa->kelas);
+                    $kelas_name = Kelas::getbyId($get_CekKenaikanKelas['status_kelas']);
+                @endphp
+                <td class="border" rowspan="3">
+                    <div style="margin-top: -10px; margin-left: 10px">
+                        <p><b>Keterangan :</b></p>
+                        <p style="margin-top: -10px; margin-left: 20px">Berdasarkan pencapaian seluruh kompetensi,<br>
+                            peserta didik dinyatakan:</p>
+                        <h4 style="color: {{ $get_CekKenaikanKelas['color'] }}; margin-top: -10px; margin-left: 20px">
+                            {{ $get_CekKenaikanKelas['status_text'] . (empty($kelas_name) ? $get_CekKenaikanKelas['status_kelas'] : $kelas_name->kelas) }}
+                        </h4>
+                    </div>
+                </td>
+            @endif
         </tr>
         <tr>
             <td class="border">Izin</td>

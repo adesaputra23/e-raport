@@ -41,6 +41,8 @@
 
 @php
     use App\Http\Controllers\RaportController;
+    use App\Semester;
+    use App\Kelas;
     $date = date('d M Y');
 @endphp
 
@@ -173,11 +175,23 @@
     <table style="border-collapse: collapse; padding: 4px; width: 100%; margin-top: -10px; font-size: 13px;">
         <tr>
             <th class="border" style="width: 7%; text-align: center;" colspan="2">Ketidakhadiran</th>
-            <td class="text-center" style="vertical-align: top;" rowspan="4">
-                <p><b>Bondowoso, {{ $date }}</b></p>
-                <br><br>
-                <p>Nama Wali Kelas</p>
-            </td>
+
+            @if ($data_siswa->Semester->id == Semester::Genap)
+                @php
+                    $get_CekKenaikanKelas = RaportController::CekKenaikanKelas($data_nilai, $data_siswa->kelas);
+                    $kelas_name = Kelas::getbyId($get_CekKenaikanKelas['status_kelas']);
+                @endphp
+                <td class="border" style="vertical-align: top;" rowspan="4">
+                    <div style="margin-top: -10px; margin-left: 10px">
+                        <p><b>Keterangan :</b></p>
+                        <p style="margin-top: -10px; margin-left: 20px">Berdasarkan pencapaian seluruh kompetensi,<br>
+                            peserta didik dinyatakan:</p>
+                        <h4 style="color: {{ $get_CekKenaikanKelas['color'] }}; margin-top: -10px; margin-left: 20px">
+                            {{ $get_CekKenaikanKelas['status_text'] . (empty($kelas_name) ? $get_CekKenaikanKelas['status_kelas'] : $kelas_name->kelas) }}
+                        </h4>
+                    </div>
+                </td>
+            @endif
         </tr>
         <tr>
             <td class="border" style="width: 25%;">Sakit</td>
@@ -202,6 +216,7 @@
                 <p>Nama Wali Murid</p>
             </td>
             <td class="text-center">
+                <p><b>Bondowoso, {{ $date }}</b></p>
                 <p><b>Wali Kelas</b></p>
                 <br><br>
                 <p>Nama Wali Kelas</p>

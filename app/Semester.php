@@ -19,7 +19,9 @@ class Semester extends Model
         2 => 'Tidak Aktif'
     ];
 
-    const Aktif = 1;
+    const Aktif  = 1;
+    const Ganjil = 1;
+    const Genap  = 2;
 
     public static function GetAktifSemester()
     {

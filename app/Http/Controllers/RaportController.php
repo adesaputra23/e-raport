@@ -540,4 +540,75 @@ class RaportController extends Controller
         return response()->json($list_siswa);
     }
 
+    public static function CekKenaikanKelas($data, $kelas=null)
+    {
+        // get kurikulum aktive
+        $kurikulum = Kurikulum::GetAktiveKurikulum()->kode_kurikulum;
+
+        // mpaing kenaikan kelas
+        $MAPING_KENAIKAN_KELAS = [
+            'KLS01' => 'KLS02',
+            'KLS02' => 'KLS03',
+            'KLS03' => 'KLS04',
+            'KLS04' => 'KLS05',
+            'KLS05' => 'KLS06',
+            'KLS06' => 'Lulus',
+        ];
+        // get nilai KKM
+        $nilai_KKM = KKM::first();
+
+        if ($kurikulum == Kurikulum::K13) {
+            $nilai_keterampilan = ($data == null ? [] : $data[0]);
+            $nilai_pengetahuan  = ($data == null ? [] : $data[2]);
+            // conversi nilai kterampilan
+            $count_nilai_keterampilan = count($nilai_keterampilan);
+            $sum_nilai_keterampilan   = array_sum($nilai_keterampilan);
+            $nilai_rata_rata_keterampilan  = ($count_nilai_keterampilan == 0 || $sum_nilai_keterampilan == 0 ? 0 : $sum_nilai_keterampilan / $count_nilai_keterampilan);
+            // conversi nilai pengetahuan
+            $count_nilai_pengetahuan = count($nilai_pengetahuan);
+            $sum_nilai_pengetahuan = array_sum($nilai_pengetahuan);
+            $nilai_rata_rata_pengetahuan  = ($count_nilai_pengetahuan == 0 || $sum_nilai_pengetahuan == 0 ? 0 : $sum_nilai_pengetahuan / $count_nilai_pengetahuan);
+            // conversi nilai akhir
+            $nilai_akhir = ($nilai_rata_rata_keterampilan + $nilai_rata_rata_pengetahuan) / 2;
+        }else{
+            // mengambil nilai total dari setiap mapel
+            $array_nilai = [];
+            foreach ($data as $key => $value) {
+                array_push($array_nilai, $value['nilai_total']);
+            }
+            // mengambil jumlah mapel
+            $count_mpel = ($data == null ? 0 : count($data));
+            $sum_nilai_mapel = array_sum($array_nilai);
+            $nilai_akhir = $sum_nilai_mapel / $count_mpel;
+        }
+
+        $status_kelas = null;
+        $status_text = null;
+        $color = null;
+        $is_data = [];
+        if ($nilai_akhir >= $nilai_KKM->nilai_kkm) {
+            $color = 'green';
+            $status_text = 'Naik Ke Kelas ';
+            $status_kelas = $MAPING_KENAIKAN_KELAS[$kelas->kode_kelas];
+        }else if($nilai_akhir <= $nilai_KKM->nilai_kkm){
+            $color = 'red';
+            $status_text = 'Tetap Di Kelas ';
+            $status_kelas = $kelas->kode_kelas;
+        }
+
+        // cek jika dia lulus
+        if ($status_kelas == 'Lulus') {
+            $color = 'green';
+            $status_text = 'Selamat anda ';
+            $status_kelas = $MAPING_KENAIKAN_KELAS[$kelas->kode_kelas];
+        }
+        // tampung data ke dalam array
+        $is_data = [
+            'color' => $color,
+            'status_text' => $status_text,
+            'status_kelas' => $status_kelas
+        ];
+        return $is_data;
+    }
+
 }
