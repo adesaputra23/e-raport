@@ -1,6 +1,7 @@
 @php
     use App\Http\Controllers\Controller;
     use App\RoleUser;
+    use App\Kurikulum;
 @endphp
 
 @include('partials/main')
@@ -117,7 +118,7 @@
                                     <div class="row mb-3">
                                         <label class="col-sm-2 col-form-label">Kurikulum *</label>
                                         <div class="col-sm-10">
-                                            <select value="{{ old('kurikulum') }}" name="kurikulum" class="form-select"
+                                            <select value="{{ old('kurikulum') }}" name="kurikulum" id="kurikulum" class="form-select"
                                                 aria-label="Default select example" required>
                                                 <option selected="" disabled>Pilih Kurikulum</option>
                                                 @foreach ($list_kurikulum as $keys => $kurikulum)
@@ -127,6 +128,24 @@
                                                     </option>
                                                 @endforeach
                                             </select>
+                                        </div>
+                                    </div>
+
+                                    {{-- KKM  --}}
+                                    <div class="nilai_kkm"
+                                        @if (!empty($get_mata_pelajaran) && $get_mata_pelajaran->kode_kurikulum == Kurikulum::K13)
+                                            style="display: block;"
+                                        @else
+                                            style="display: none;"
+                                        @endif
+                                    >
+                                        <div class="row mb-3">
+                                            <label for="example-text-input" class="col-sm-2 col-form-label">Nilai KKM *</label>
+                                            <div class="col-sm-10">
+                                                <input type="number" name="nilai_kkm" id="nilai_kkm" class="form-control"
+                                                    value="{{ $get_mata_pelajaran != null ? $get_mata_pelajaran->nilai_kkm : old('nilai_kkm') }}"
+                                                    placeholder="Nilai KKM" required>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -212,6 +231,18 @@
 @include('partials/vendor-scripts')
 
 <script src={{ asset('assets/js/app.js') }}></script>
+<script>
+    $('#kurikulum').on('change', function(e){
+        var val = $(this).val();
+        if (val == 'KR13') {
+            $('.nilai_kkm').css('display', 'block');
+            $('#nilai_kkm').attr('required', true);
+        }else{
+            $('.nilai_kkm').css('display', 'none');
+            $('#nilai_kkm').attr('required', false);
+        }
+    });
+</script>
 </body>
 
 </html>

@@ -27,7 +27,7 @@ class SiswaController extends Controller
 {
     public function LihatData()
     {
-        if (RoleUser::CheckRole()->user_role === RoleUser::Admin) {
+        if (RoleUser::CheckRole()->user_role === RoleUser::Admin || RoleUser::CheckRole()->user_role === RoleUser::Operator) {
             $list_siswa = Siswa::with('SisiwaKelas')->get();
         }elseif (RoleUser::CheckRole()->user_role === RoleUser::WaliKelas) {
             $nik_wali_kelas = Auth::user()->user_code;

@@ -25,7 +25,7 @@
                 @include('partials/alert_mesage')
                 {{-- isi conten --}}
                 <div class="card card-body">
-                    @if (RoleUser::CheckRole()->user_role === RoleUser::Admin)
+                    @if (RoleUser::CheckRole()->user_role === RoleUser::Admin || RoleUser::CheckRole()->user_role === RoleUser::Operator)
                         <div>
                             <a href="{{ URL(Session::get('prefix') . '/pengumuman/form-data', ['id' => 0]) }}"
                                 class="btn btn-sm btn-primary waves-effect waves-light">Tambah Data</a>
@@ -52,7 +52,7 @@
                                         <td>{{ $data->tanggal }}</td>
                                         <td>
                                             <div class="btn-group float-end" role="group" aria-label="Basic example">
-                                                @if (RoleUser::CheckRole()->user_role === RoleUser::Admin)
+                                                @if (RoleUser::CheckRole()->user_role === RoleUser::Admin || RoleUser::CheckRole()->user_role === RoleUser::Operator)
                                                     <a href="{{ URL(Session::get('prefix') . '/pengumuman/form-data', ['id' => $data->id_pengumuman]) }}"
                                                         class="btn btn-warning btn-sm">Ubah</a>
                                                     <button data-bs-toggle="modal" id="id-btn-hapus"

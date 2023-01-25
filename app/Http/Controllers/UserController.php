@@ -44,7 +44,7 @@ class UserController extends Controller
                 }
             }
         }else{
-            $cek_role_user = RoleUser::where('user_code', $is_user['user_code'])->where('user_role', '!=', 1)->first();
+            $cek_role_user = RoleUser::where('user_code', $is_user['user_code'])->where('user_role','<>', 1)->first();
             if ($cek_role_user == null) {
                 return redirect()->back()->withInput($request->only('email', 'password'))->with('error', 'Role user anda belum di seting.!');
             }else{

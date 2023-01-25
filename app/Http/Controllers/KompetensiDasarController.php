@@ -21,7 +21,7 @@ class KompetensiDasarController extends Controller
     public function index()
     {
 
-        if (RoleUser::CheckRole()->user_role === RoleUser::Admin){  
+        if (RoleUser::CheckRole()->user_role === RoleUser::Admin || RoleUser::CheckRole()->user_role === RoleUser::Operator){  
             $list_data  = KompetensiDasar::with('mt', 'smester')->get();
         }elseif (RoleUser::CheckRole()->user_role === RoleUser::WaliKelas) {
             $nik_wali_kelas = Auth::user()->user_code;
@@ -50,7 +50,7 @@ class KompetensiDasarController extends Controller
     {
         $get_kd = KompetensiDasar::where('kode_kd', $id)->first();
         
-        if (RoleUser::CheckRole()->user_role === RoleUser::Admin){
+        if (RoleUser::CheckRole()->user_role === RoleUser::Admin || RoleUser::CheckRole()->user_role === RoleUser::Operator){
             $list_mt = MataPelajaran::with('kelas')->where('kode_kurikulum', Kurikulum::GetAktiveKurikulum()->kode_kurikulum)->get();
         }elseif (RoleUser::CheckRole()->user_role === RoleUser::WaliKelas) {
             $nik_wali_kelas = Auth::user()->user_code;

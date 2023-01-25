@@ -70,7 +70,11 @@
                                                     <button type="button" class="btn btn-success btn-sm"
                                                         id="btn-set-role" data-bs-toggle="modal"
                                                         data-bs-target=".bs-example-modal-center"
-                                                        data-usercode={{ $user->user_code }}>Set Role</button>
+                                                        data-usercode={{ $user->user_code }}
+                                                        @if (User::GetNameUser($sidebar_partial, $user->user_code) === 'ADMIN')
+                                                            disabled
+                                                        @endif
+                                                    >Set Role</button>
                                                 @endif
                                                 <a href="{{ url('/user/reset-password', [$user->user_code]) }}"
                                                     class="btn btn-danger">Res Password</a>
@@ -111,7 +115,9 @@
                             <select required name="role[]" id="role" class="select2 form-control select2-multiple"
                                 multiple="multiple" data-placeholder="pilih role">
                                 @foreach ($list_role as $key => $role)
-                                    <option value="{{ $key }}">{{ $role }}</option>
+                                    @if ($role != 'ADMINISTRATOR')
+                                        <option value="{{ $key }}">{{ $role }}</option>
+                                    @endif
                                 @endforeach
                             </select>
 

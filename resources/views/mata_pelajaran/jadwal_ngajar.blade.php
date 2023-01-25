@@ -7,7 +7,7 @@
 @include('partials/main')
 
 <head>
-    @include('partials/title-meta', ['title' => 'Jadwal Mengajar'])
+    @include('partials/title-meta', ['title' => 'Jadwal Mengajar Kepala Sekolah'])
     @include('partials/head-css')
 </head>
 
@@ -21,14 +21,16 @@
     <div class="main-content">
         <div class="page-content">
             <div class="container-fluid">
-                @include('partials/page-title', ['pagetitle' => 'Dashboard', 'title' => 'Jadwal Mengajar'])
+                @include('partials/page-title', ['pagetitle' => 'Dashboard', 'title' => 'Jadwal Mengajar Kepala Sekolah'])
                 @include('partials/alert_mesage')
                 {{-- isi conten --}}
                 <div class="card card-body">
-                    <div>
-                        <a href="{{ URL(Session::get('prefix') . '/mata-pelajaran/form-jadal-ngajar', ['id' => 0]) }}"
-                            class="btn btn-sm btn-primary waves-effect waves-light">Tambah Data</a>
-                    </div>
+                    @if (RoleUser::CheckRole()->user_role === RoleUser::Admin || RoleUser::CheckRole()->user_role === RoleUser::Operator)    
+                        <div>
+                            <a href="{{ URL(Session::get('prefix') . '/mata-pelajaran/form-jadal-ngajar', ['id' => 0]) }}"
+                                class="btn btn-sm btn-primary waves-effect waves-light">Tambah Data</a>
+                        </div>
+                    @endif
                     <hr>
                     <div class="table-responsive">
                         <table id="datatable"
@@ -42,7 +44,9 @@
                                     <th>Kelas</th>
                                     <th>Semester</th>
                                     <th>Tahun Ajaran</th>
-                                    <th>Aksi</th>
+                                    @if (RoleUser::CheckRole()->user_role === RoleUser::Admin || RoleUser::CheckRole()->user_role === RoleUser::Operator)
+                                        <th>Aksi</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -54,18 +58,20 @@
                                         <td>{{ $value->kelas->ket_kelas }}</td>
                                         <td>{{ $value->semester->nama_smester }}</td>
                                         <td>{{ $value->tahunajaran->tahun_ajaran }}</td>
-                                        <td>
-                                            <div class="btn-group float-end" role="group" aria-label="Basic example">
-                                                <a href="{{ URL(Session::get('prefix') . '/mata-pelajaran/form-jadal-ngajar', ['id' => $value->id_jadwal_ngajar]) }}"
-                                                    class="btn btn-warning btn-sm">Ubah</a>
-                                                <button data-bs-toggle="modal" id="id-btn-hapus"
-                                                    data-id="{{ $value->id_jadwal_ngajar }}"
-                                                    data-bs-target="#firstmodal" type="button"
-                                                    class="btn btn-danger btn-sm">
-                                                    Hapus
-                                                </button>
-                                            </div>
-                                        </td>
+                                        @if (RoleUser::CheckRole()->user_role === RoleUser::Admin || RoleUser::CheckRole()->user_role === RoleUser::Operator)    
+                                            <td>
+                                                <div class="btn-group float-end" role="group" aria-label="Basic example">
+                                                    <a href="{{ URL(Session::get('prefix') . '/mata-pelajaran/form-jadal-ngajar', ['id' => $value->id_jadwal_ngajar]) }}"
+                                                        class="btn btn-warning btn-sm">Ubah</a>
+                                                    <button data-bs-toggle="modal" id="id-btn-hapus"
+                                                        data-id="{{ $value->id_jadwal_ngajar }}"
+                                                        data-bs-target="#firstmodal" type="button"
+                                                        class="btn btn-danger btn-sm">
+                                                        Hapus
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        @endif
                                     </tr>
                                 @endforeach
                             </tbody>

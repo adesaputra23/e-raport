@@ -78,6 +78,11 @@ class User extends Authenticatable
         return $this->hasOne('App\RoleUser', 'user_code', 'user_code');
     }
 
+    public function roles()
+    {
+        return $this->hasMany('App\RoleUser', 'user_code', 'user_code');
+    }
+
     public function PegawaiGuru()
     {
         return $this->hasOne('App\PegawaiDanGuru', 'nik', 'user_code');
@@ -95,7 +100,10 @@ class User extends Authenticatable
         }else{
             $nama = Siswa::where('nisn', $data)->first();
         }
-        return $nama->nama;
+        if (!empty($nama)) {
+            return $nama->nama;
+        }
+        return 'ADMIN';
     }
 
 

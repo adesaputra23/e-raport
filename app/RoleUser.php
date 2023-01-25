@@ -27,14 +27,16 @@ class RoleUser extends Model
     // guru ekstra kulikuler
     // const GuruEK    = 5;
     const KP    = 6;
+    const Operator = 7;
 
     const MAP_ROLE = [
-        1 => 'ADMIN',
+        1 => 'ADMINISTRATOR',
         2 => 'WALI KELAS',
         // 3 => 'GURU',
         4 => 'SISWA / WALI MURID',
         // 5 => 'GURU EKSTRA KULIKULER',
         6 => 'KEPALA SEKOLAH',
+        7 => 'OPERATOR'
     ];
 
     public static function CheckRole()

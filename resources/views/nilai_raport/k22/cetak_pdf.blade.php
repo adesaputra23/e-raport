@@ -119,9 +119,9 @@
         @endphp
         @foreach ($data_nilai as $items => $nilai)
             @php
-                $grnerate_nilai = RaportController::GenerateNilai($nilai['nilai_total']);
+                $grnerate_nilai = RaportController::GenerateNilaiK22($nilai['nilai_total']);
                 $gnerate_predikat = RaportController::GeneratePredikat($grnerate_nilai);
-                $line_text = 'Ananda ' . $data_siswa->siswa->nama . ', ' . $gnerate_predikat . ' ';
+                $line_text = 'Ananda ' . $data_siswa->siswa->nama . ', ' . $gnerate_predikat . ' dalam ';
             @endphp
             <tr>
                 <td class="border text-center">{{ $no++ }}</td>

@@ -143,8 +143,8 @@
         @endphp
         @foreach ($data_nilai[0] as $items => $value)
             @php
-                $converter_nilai_pengetahuan = RaportController::GenerateNilai(Str::substr($data_nilai[2][$items] ?? '-', 0, 2));
-                $converter_nilai_keterampilan = RaportController::GenerateNilai(Str::substr($value, 0, 2));
+                $converter_nilai_pengetahuan = RaportController::GenerateNilai(Str::substr($data_nilai[2][$items] ?? '-', 0, 2), RaportController::GetNameMapel($items)->nilai_kkm);
+                $converter_nilai_keterampilan = RaportController::GenerateNilai(Str::substr($value, 0, 2), RaportController::GetNameMapel($items)->nilai_kkm);
             @endphp
             <tr>
                 <td class="border">{{ $no++ }}</td>
@@ -204,11 +204,13 @@
             $no = 1;
         @endphp
         @foreach ($data_ekskul as $item => $ekskul)
-            <tr>
-                <td class="border text-center">{{ $item + 1 }}</td>
-                <td class="border">{{ $ekskul->Ekskul->nama_ekskul }}</td>
-                <td class="border">{{ $ekskul->keterangan }}</td>
-            </tr>
+            @if (!empty($ekskul->Ekskul))
+                <tr>
+                    <td class="border text-center">{{ $item + 1 }}</td>
+                    <td class="border">{{ $ekskul->Ekskul->nama_ekskul }}</td>
+                    <td class="border">{{ $ekskul->keterangan }}</td>
+                </tr>
+            @endif
         @endforeach
     </table>
     <p><b>D. Saran - Saran</b></p>

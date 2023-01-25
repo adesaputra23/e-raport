@@ -618,7 +618,7 @@ class PenilaianControlle extends Controller
             $message = 'Simpan';
             if (isset($request->id_pn_fm_sm)) {
                 PnSmFm::whereIn('id_penilaian_fm_sm', $request->id_pn_fm_sm)->delete();
-                $message = 'Simpan';
+                $message = 'Ubah';
             }
             $array_nilai_foramtif       = [];
             $array_nilai_sumatif        = [];
@@ -638,6 +638,8 @@ class PenilaianControlle extends Controller
                     $save_penilaian->kode_tujuan                = $request->kode_tujuan[$key_nilai];
                     $save_penilaian->kode_mt                    = $kode_mt;
                     $save_penilaian->nilai_tp                   = $nilai_fm_sm;
+                    $save_penilaian->nilai_pts                  = $request->nilai_fm_sm_pts[$key_nilai];
+                    $save_penilaian->nilai_pas                  = $request->nilai_fm_sm_pas[$key_nilai];
                     $save_penilaian->nilai_formatif             = $array_nilai_foramtif[$kode_mt];
                     $save_penilaian->nilai_sumatif              = $array_nilai_sumatif[$kode_mt];
                     $save_penilaian->nilai_akhir_sumatif        = $array_nilai_akhir_sumatif[$kode_mt];

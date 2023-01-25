@@ -64,6 +64,15 @@
                     </div>
                 </div>
 
+                {{-- <div class="card card-body">
+                    <h3 class="card-title">Info Penilaian</h3>
+                    <ul>
+                        <li>Penilaian Formatif : Proses penilaian mengumpulkan data mengenai sejauh mana kemajuan siswa dalam menguasai kompetensi, menginterpretasikan, dan memutuskan kegiatan pembelajaran yang efektif bagi siswa agar dapat menguasai materi/kompetensi secara optimal.</li>
+                        <li>Nilai Sumatif : </li>
+                        <li>Nilai Akhir Semester Sumatif : </li>
+                    </ul>
+                </div> --}}
+
                 <div class="card card-body">
                     {{-- tabel content --}}
                     <div class="table-responsive">
@@ -77,7 +86,9 @@
                                 <tr class="text-center">
                                     <th style="width: 25%;">Mata Pelajaran</th>
                                     <th>Tujuan Pembelajaran</th>
-                                    <th>Nilai</th>
+                                    <th>Nilai Harian</th>
+                                    <th>Nilai PTS</th>
+                                    <th>Nilai PAS</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -90,24 +101,26 @@
                                         <tr>
                                             <td>{{ TujuanPembelajaran::GetKodeMTByKodeTujuan($val->kode_tujuan)->nama_tujuan }}
                                             </td>
-                                            <td class="text-center">{{ $val->nilai_tp }}</td>
+                                            <td class="text-center">{{ $val->nilai_tp ?? 0 }}</td>
+                                            <td class="text-center">{{ $val->nilai_pts ?? 0 }}</td>
+                                            <td class="text-center">{{ $val->nilai_pas ?? 0 }}</td>
                                         </tr>
                                     @endforeach
                                     <tr style="background-color: lightsteelblue">
                                         <td><b>Nilai Formatif</b></td>
-                                        <td class="text-center">
+                                        <td class="text-center" colspan="3">
                                             <b>{{ $list_nilai_sm_fm[$mapel]['nilai_formatif'] }}</b>
                                         </td>
                                     </tr>
                                     <tr style="background-color: lightsteelblue">
                                         <td><b>Nilai Sumatif</b></td>
-                                        <td class="text-center">
+                                        <td class="text-center" colspan="3">
                                             <b>{{ $list_nilai_sm_fm[$mapel]['nilai_sumatif'] }}</b>
                                         </td>
                                     </tr>
                                     <tr style="background-color: lightsteelblue">
-                                        <td><b>Nilai Akhir Sumatif</b></td>
-                                        <td class="text-center">
+                                        <td><b>Nilai Akhir Semester Sumatif</b></td>
+                                        <td class="text-center" colspan="3">
                                             <b>{{ $list_nilai_sm_fm[$mapel]['nilai_akhir_sumatif'] }}</b>
                                         </td>
                                     </tr>

@@ -64,7 +64,7 @@
                 </div>
 
                 {{-- div count data master --}}
-                @if (RoleUser::CheckRole()->user_role === RoleUser::Admin)
+                @if (in_array(RoleUser::CheckRole()->user_role, [RoleUser::Admin, RoleUser::Operator]))
                     @include('home_admin')
                 @elseif(RoleUser::CheckRole()->user_role === RoleUser::WaliKelas)
                     @include('home_wali_kelas')

@@ -29,7 +29,7 @@ class MataPelajaranController extends Controller
         $list_semester = Semester::get();
         $list_tahun_ajaran = TahunAjaran::get();
 
-        if (RoleUser::CheckRole()->user_role === RoleUser::Admin){
+        if (RoleUser::CheckRole()->user_role === RoleUser::Admin || RoleUser::CheckRole()->user_role === RoleUser::Operator){
             $list_data = MataPelajaran::with('guru','kelas', 'kurikulum')->get();
         }elseif (RoleUser::CheckRole()->user_role === RoleUser::WaliKelas) {
             $nik_wali_kelas = Auth::user()->user_code;
@@ -103,6 +103,7 @@ class MataPelajaranController extends Controller
             $simpan_data->nik               = $request->guru;
             $simpan_data->kode_kelas        = $request->kelas;
             $simpan_data->kode_kurikulum    = $request->kurikulum;
+            $simpan_data->nilai_kkm         = $request->nilai_kkm ?? 0;
             $simpan_data->id_semester       = $request->semester;
             $simpan_data->id_tahun_ajaran   = $request->tahun_ajaran;
             $simpan_data->save();

@@ -1,5 +1,6 @@
 @php
     use App\User;
+    use App\RoleUser;
     use App\Http\Controllers\Controller;
 @endphp
 
@@ -24,7 +25,7 @@
                 @include('partials/alert_mesage')
                 {{-- isi conten --}}
                 <div class="card card-body">
-                    @if (Controller::isAdminPage())
+                    @if (Controller::isAdminPage() || RoleUser::CheckRole()->user_role === RoleUser::Operator)
                         <div>
                             <a href="{{ URL(Session::get('prefix') . '/siswa/form-tambah-data', ['nisn' => 0]) }}"
                                 class="btn btn-sm btn-primary waves-effect waves-light">Tambah Data</a>
@@ -58,7 +59,7 @@
                                         <td>{{ $siswa->alamat ?? '-' }}</td>
                                         <td style="width: 10%">
                                             <div class="btn-group float-end" role="group" aria-label="Basic example">
-                                                @if (Controller::isAdminPage())
+                                                @if (Controller::isAdminPage() || RoleUser::CheckRole()->user_role === RoleUser::Operator)
                                                     <a href="{{ URL(Session::get('prefix') . '/siswa/form-tambah-data', ['nisn' => $siswa->nisn]) }}"
                                                         class="btn btn-warning btn-sm">Ubah</a>
                                                     <button data-bs-toggle="modal" id="id-btn-hapus"

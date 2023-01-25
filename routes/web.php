@@ -29,12 +29,38 @@ Route::get('/login', 'UserController@ShowLogin')->name('login');
 Route::post('/proses-login', 'UserController@ProsesLogin')->name('proses.login');
 Route::get('/logout', 'UserController@logout')->name('logout');
 
+// kurikulum
+Route::get('/kurikulum/lihat-data', 'KurikulumController@LihatData')->name('kurikulum.lihat.data.admin');
+Route::get('/kurikulum/form-tambah-data/{kode_kurikulum}', 'KurikulumController@FormTambahData')->name('kurikulum.tambah.data.admin');
+Route::post('/kurikulum/simpan-data', 'KurikulumController@SimpanData')->name('kurikulum.simpan.data.admin');
+Route::get('/kurikulum/hapus-data/{kode_kurikulum}', 'KurikulumController@hapusData')->name('kurikulum.hapus.data.admin');
+
+// tahun ajaran
+Route::get('/tahun-ajaran/lihat-data', 'TahunAjaranController@LihatData')->name('tahun.ajaran.lihat.data.admin');
+Route::get('/tahun-ajaran/form-tambah-data/{id}', 'TahunAjaranController@FormTambahData')->name('tahun.ajaran.form.tambah.data.admin');
+Route::post('/tahun-ajaran/simpan-data', 'TahunAjaranController@SimpanData')->name('tahun.ajaran.simpan.data.admin');
+Route::get('/tahun-ajaran/hapus-data/{id}', 'TahunAjaranController@hapusData')->name('tahun.ajaran.hapus.data.admin');
+
 // siswa
 Route::get('/siswa/lihat-data', 'SiswaController@LihatData')->name('siswa.lihat.data.admin');
+Route::get('/siswa/form-tambah-data/{nisn}', 'SiswaController@FormTambahData')->name('siswa.form.tambah.data.admin');
+Route::post('/siswa/simpan-data', 'SiswaController@SimpanData')->name('siswa.simpan.data.admin');
+Route::get('/siswa/hapus-data/{nisn}', 'SiswaController@hapusData')->name('siswa.hapus.data.admin');
 Route::get('/siswa/detail-data/{nisn}', 'SiswaController@detailData')->name('siswa.detail.data.admin');
+Route::post('/siswa/ubah-nisn', 'SiswaController@ubahNisn')->name('siswa.ubah.nisn.admin');
+
+// kelas
+Route::get('/kelas/lihat-data', 'KelasController@LihatData')->name('kelas.lihat.data.admin');
+Route::get('/kelas/form-tambah-data/{id}', 'KelasController@FormTambahData')->name('kelas.form.tambah.data.admin');
+Route::post('/kelas/simpan-data', 'KelasController@SimpanData')->name('kelas.simpan.data.admin');
+Route::get('/kelas/hapus-data/{id}', 'KelasController@hapusData')->name('kelas.hapus.data.admin');
+Route::post('/kelas/set-wali-kelas', 'KelasController@setWaliKelas')->name('kelas.set.wali.kelas.admin');
 
 // mata pelajaran
 Route::get('/mata-pelajaran', 'MataPelajaranController@index')->name('mata.pelajaran.lihat.data.admin');
+Route::get('/mata-pelajaran/form-tambah-data/{id}', 'MataPelajaranController@create')->name('mata.pelaran.form.tambah.data.admin');
+Route::post('/mata-pelajaran/simpan-data', 'MataPelajaranController@store')->name('mata.pelajaran.simpan.data.admin');
+Route::get('/mata-pelajaran/hapus-data/{id}', 'MataPelajaranController@destroy')->name('mata.pelajaran.hapus.data.admin');
 
 // kompetesni dasar
 Route::get('/kompetensi-dasar', 'KompetensiDasarController@index')->name('kompetensi.dasar.lihat.data.admin');
@@ -69,6 +95,25 @@ Route::get('cetak-raport/{nisn}/{kode_kelas}', 'RaportController@CetakRaport')->
 // monitoring pembalrajaran
 Route::get('/pemlajaran/monitoring-pembelajaran', 'PenilaianControlle@MonitoringPembelajaran')->name('monitoring.pembelajaran');
 Route::get('/pemlajaran/detail-penilaian/{nisn}/{kode_kelas}/{id_semester}', 'PenilaianControlle@DetailPenilaian')->name('detail.penilaian');
+
+// ekskul
+Route::get('/ekskul', 'EkskulController@index')->name('ekskul.lihat.data.admin');
+Route::get('/ekskul/form-tambah-data/{id}', 'EkskulController@create')->name('ekskul.form.tambah.data.admin');
+Route::post('/ekskul/simpan-data', 'EkskulController@store')->name('ekskul.simpan.data.admin');
+Route::get('/ekskul/hapus-data/{id}', 'EkskulController@destroy')->name('ekskul.hapus.data.admin');
+
+// pegawai dan guru
+Route::get('/pegawai-guru/lihat-data', 'PegawaiDanGuruController@LihatData')->name('pegawai.lihat.data.admin');
+Route::get('/pegawai-guru/tambah-data/{nik}', 'PegawaiDanGuruController@TambahData')->name('pegawai.tambah.data.admin');
+Route::post('/pegawai-guru/simpan-data', 'PegawaiDanGuruController@SimpanData')->name('pegawai.simpan.data.admin');
+Route::get('/pegawai-guru/hapus-data/{nik}', 'PegawaiDanGuruController@hapusData')->name('pegawai.hapus.data.admin');
+Route::get('/pegawai-guru/detail-data/{nik}', 'PegawaiDanGuruController@detailData')->name('pegawai.detail.data.admin');
+
+// kelas siswa
+Route::get('/kelas-siswa/lihat-data', 'KelasSiswaController@LihatData')->name('kelas.siswa.lihat.data.admin');
+Route::get('/kelas-siswa/form-tambah-data/{id}', 'KelasSiswaController@FormTambahData')->name('kelas.siswa.form.tambah.data.admin');
+Route::post('/kelas-siswa/simpan-data', 'KelasSiswaController@SimpanData')->name('kelas.siswa.simpan.data.admin');
+Route::get('/kelas-siswa/hapus-data/{id}', 'KelasSiswaController@hapusData')->name('kelas.siswa.hapus.data.admin');
 
 Route::group(['middleware'], function () {
     Route::get('/home', 'HomeController@index')->name('home');
@@ -171,6 +216,12 @@ Route::prefix('admin','middleware')->group(function(){
     Route::get('/pengumuman/delete/{id}', 'PengumumanController@delete')->name('penggumuman.delete');
     Route::get('/pengumuman/show/{id}', 'PengumumanController@show')->name('penggumuman.show');
 
+    // set jadwal ngajar kepala sekolah
+    Route::get('/mata-pelajaran/jadwal-ngajar', 'MataPelajaranController@jadwalNgajar')->name('mata.pelajaran.jadwal.ngajar');
+    Route::get('/mata-pelajaran/form-jadal-ngajar/{id}', 'MataPelajaranController@FormJadwalNgajar')->name('mata.pelajaran.form.jadwal.ngajar');
+    Route::post('/mata-pelajaran/save-jadal-ngajar', 'MataPelajaranController@SaveJadwalNgajar')->name('mata.pelajaran.save.jadwal.ngajar');
+    Route::get('/mata-pelajaran/delete-jadwal-ngajar/{id}', 'MataPelajaranController@JadwalNgajarDelete')->name('mata.pelajaran.delete.jadwal.ngajar');
+
 });
 
 // set jadwal ngajar kepala sekolah
@@ -186,8 +237,11 @@ Route::post('/guru-pegawai/save-nip', 'PegawaiDanGuruController@SaveNip')->name(
 // ajax get kelas
 Route::post('/mata-pelajaran/ajax-get-mapel', 'MataPelajaranController@AjaxGetMapel');
 
-// detail pengumuman
+// pengumuman
 Route::get('/pengumuman/index', 'PengumumanController@index')->name('pengumuman.index');
+Route::get('/pengumuman/form-data/{id}', 'PengumumanController@form_data')->name('penggumuman.form_data');
+Route::post('/pengumuman/save', 'PengumumanController@save')->name('penggumuman.save');
+Route::get('/pengumuman/delete/{id}', 'PengumumanController@delete')->name('penggumuman.delete');
 Route::get('/pengumuman/show/{id}', 'PengumumanController@show')->name('penggumuman.show');
 
 Route::get('/api', 'SiswaController@SiswaSerach')->name('siswa.api');

@@ -15,7 +15,7 @@ class MateriPembelajaranK22Controller extends Controller
 {
     public function index()
     {   
-        if (RoleUser::CheckRole()->user_role === RoleUser::Admin) {
+        if (RoleUser::CheckRole()->user_role === RoleUser::Admin || RoleUser::CheckRole()->user_role === RoleUser::Operator) {
             $list_data = MateriPembelajaran::get();
         }else{
             $nik_wali_kelas = Auth::user()->user_code;
@@ -30,7 +30,7 @@ class MateriPembelajaranK22Controller extends Controller
     public function MateriAddData($id)
     {
         $data_materi = MateriPembelajaran::find($id);
-        if (RoleUser::CheckRole()->user_role === RoleUser::Admin){
+        if (RoleUser::CheckRole()->user_role === RoleUser::Admin || RoleUser::CheckRole()->user_role === RoleUser::Operator){
             $list_mt = MataPelajaran::with('kelas')->where('kode_kurikulum', Kurikulum::Prototype)->get();
         }elseif (RoleUser::CheckRole()->user_role === RoleUser::WaliKelas) {
             $nik_wali_kelas = Auth::user()->user_code;

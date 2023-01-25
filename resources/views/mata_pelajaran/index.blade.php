@@ -27,7 +27,7 @@
                 @include('partials/alert_mesage')
                 {{-- isi conten --}}
                 <div class="card card-body">
-                    @if (Controller::isAdminPage())
+                    @if (Controller::isAdminPage() || RoleUser::CheckRole()->user_role === RoleUser::Operator)
                         <div>
                             <a href="{{ URL(Session::get('prefix') . '/mata-pelajaran/form-tambah-data', ['id' => 0]) }}"
                                 class="btn btn-sm btn-primary waves-effect waves-light">Tambah Data</a>
@@ -65,10 +65,11 @@
                                                 <th>Mata Pelajaran</th>
                                                 <th>NIK/Guru</th>
                                                 <th>Kode/Kelas</th>
+                                                <th>Nilai KKM</th>
                                                 <th>Semester</th>
                                                 <th>Tahun Ajaran</th>
                                                 {{-- <th>Kurikulum</th> --}}
-                                                @if (Controller::isAdminPage())
+                                                @if (Controller::isAdminPage() || RoleUser::CheckRole()->user_role === RoleUser::Operator)
                                                     <th>Aksi</th>
                                                 @endif
                                             </tr>
@@ -85,12 +86,13 @@
                                                         </td>
                                                         <td>{{ $data->kode_kelas . ' - ' . $data->kelas->ket_kelas }}
                                                         </td>
+                                                        <td class="text-center">{{ $data->nilai_kkm }}</td>
                                                         <td>{{ !empty($data->Semester) ? $data->Semester->nama_smester : '-' }}
                                                         </td>
                                                         <td>{{ !empty($data->TahunAjaran) ? $data->TahunAjaran->tahun_ajaran : '-' }}
                                                         </td>
                                                         {{-- <td>{{$data->kurikulum->nama_kurikulum}}</td> --}}
-                                                        @if (Controller::isAdminPage())
+                                                        @if (Controller::isAdminPage() || RoleUser::CheckRole()->user_role === RoleUser::Operator)
                                                             <td style="width: 10%">
                                                                 <div class="btn-group float-end" role="group"
                                                                     aria-label="Basic example">
@@ -115,8 +117,8 @@
                             </div>
 
                             <div class="tab-pane" id="profile1" role="tabpanel">
-                                <h4 class="card-title">Kurikulum Prototipe/2020</h4>
-                                <p class="card-title-desc">Data Mata Pelajaran Prototipe/2020</p>
+                                <h4 class="card-title">Kurikulum Prototipe/2022</h4>
+                                <p class="card-title-desc">Data Mata Pelajaran Prototipe/2022</p>
                                 <div class="table-responsive">
                                     <table id="tabel-k20"
                                         class="table table-striped table-bordered dt-responsive dataTable no-footer dtr-inline"
@@ -127,10 +129,11 @@
                                                 <th>Mata Pelajaran</th>
                                                 <th>NIK/Guru</th>
                                                 <th>Kode/Kelas</th>
+                                                {{-- <th>Nilai KKM</th> --}}
                                                 <th>Semester</th>
                                                 <th>Tahun Ajaran</th>
                                                 {{-- <th>Kurikulum</th> --}}
-                                                @if (Controller::isAdminPage())
+                                                @if (Controller::isAdminPage() || RoleUser::CheckRole()->user_role === RoleUser::Operator)
                                                     <th>Aksi</th>
                                                 @endif
                                             </tr>
@@ -146,12 +149,13 @@
                                                         </td>
                                                         <td>{{ $data->kode_kelas . ' - ' . $data->kelas->ket_kelas }}
                                                         </td>
+                                                        {{-- <td class="text-center">{{ $data->nilai_kkm }}</td> --}}
                                                         <td>{{ !empty($data->Semester) ? $data->Semester->nama_smester : '-' }}
                                                         </td>
                                                         <td>{{ !empty($data->TahunAjaran) ? $data->TahunAjaran->tahun_ajaran : '-' }}
                                                         </td>
                                                         {{-- <td>{{$data->kurikulum->nama_kurikulum}}</td> --}}
-                                                        @if (Controller::isAdminPage())
+                                                        @if (Controller::isAdminPage() || RoleUser::CheckRole()->user_role === RoleUser::Operator)
                                                             <td style="width: 10%">
                                                                 <div class="btn-group float-end" role="group"
                                                                     aria-label="Basic example">
@@ -193,8 +197,9 @@
                                                 <th>Mata Pelajaran</th>
                                                 <th>NIK/Guru</th>
                                                 <th>Kode/Kelas</th>
+                                                <th>Nilai KKM</th>
                                                 {{-- <th>Kurikulum</th> --}}
-                                                @if (Controller::isAdminPage())
+                                                @if (Controller::isAdminPage() || RoleUser::CheckRole()->user_role === RoleUser::Operator)
                                                     <th>Aksi</th>
                                                 @endif
                                             </tr>
@@ -211,8 +216,9 @@
                                                         </td>
                                                         <td>{{ $data->kode_kelas . ' - ' . $data->kelas->ket_kelas }}
                                                         </td>
+                                                        <td class="text-center">{{ $data->nilai_kkm }}</td>
                                                         {{-- <td>{{$data->kurikulum->nama_kurikulum}}</td> --}}
-                                                        @if (Controller::isAdminPage())
+                                                        @if (Controller::isAdminPage() || RoleUser::CheckRole()->user_role === RoleUser::Operator)
                                                             <td style="width: 10%">
                                                                 <div class="btn-group float-end" role="group"
                                                                     aria-label="Basic example">
@@ -238,8 +244,8 @@
                             {{-- @elseif(Kurikulum::GetAktiveKurikulum()->kode_kurikulum == Kurikulum::Prototype) --}}
                             <div
                                 class="tab-pane {{ Kurikulum::GetAktiveKurikulum()->kode_kurikulum == Kurikulum::Prototype ? 'active' : '' }}">
-                                <h4 class="card-title">Kurikulum Prototipe/2020</h4>
-                                <p class="card-title-desc">Data Mata Pelajaran Prototipe/2020</p>
+                                <h4 class="card-title">Kurikulum Prototipe/2022</h4>
+                                <p class="card-title-desc">Data Mata Pelajaran Prototipe/2022</p>
                                 <div class="table-responsive">
                                     <table id="tabel-k20"
                                         class="table table-striped table-bordered dt-responsive dataTable no-footer dtr-inline"
@@ -250,8 +256,9 @@
                                                 <th>Mata Pelajaran</th>
                                                 <th>NIK/Guru</th>
                                                 <th>Kode/Kelas</th>
+                                                {{-- <th>Nilai KKM</th> --}}
                                                 {{-- <th>Kurikulum</th> --}}
-                                                @if (Controller::isAdminPage())
+                                                @if (Controller::isAdminPage() || RoleUser::CheckRole()->user_role === RoleUser::Operator)
                                                     <th>Aksi</th>
                                                 @endif
                                             </tr>
@@ -267,8 +274,9 @@
                                                         </td>
                                                         <td>{{ $data->kode_kelas . ' - ' . $data->kelas->ket_kelas }}
                                                         </td>
+                                                        {{-- <td class="text-center">{{ $data->nilai_kkm }}</td> --}}
                                                         {{-- <td>{{$data->kurikulum->nama_kurikulum}}</td> --}}
-                                                        @if (Controller::isAdminPage())
+                                                        @if (Controller::isAdminPage() || RoleUser::CheckRole()->user_role === RoleUser::Operator)
                                                             <td style="width: 10%">
                                                                 <div class="btn-group float-end" role="group"
                                                                     aria-label="Basic example">
@@ -298,7 +306,7 @@
 
                 </div>
 
-                @if (Controller::isAdminPage())
+                @if (Controller::isAdminPage() || RoleUser::CheckRole()->user_role === RoleUser::Operator)
                     {{-- KKM --}}
                     <div class="card card-body">
                         <div class="card-title">

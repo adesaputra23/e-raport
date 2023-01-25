@@ -17,7 +17,7 @@ class TujuanPembelajaranController extends Controller
     public function index()
     {
         $list_data = TujuanPembelajaran::with('MateriPembelajaran')->get();
-        if (RoleUser::CheckRole()->user_role === RoleUser::Admin) {
+        if (RoleUser::CheckRole()->user_role === RoleUser::Admin || RoleUser::CheckRole()->user_role === RoleUser::Operator) {
             $list_data = $list_data;
         }else{
             $nik_wali_kelas = Auth::user()->user_code;
@@ -34,7 +34,7 @@ class TujuanPembelajaranController extends Controller
     {
         $data_materi = TujuanPembelajaran::where('kode_tujuan', '=', $id)->first();
         $list_semester = Semester::get();
-        if (RoleUser::CheckRole()->user_role === RoleUser::Admin ) {
+        if (RoleUser::CheckRole()->user_role === RoleUser::Admin || RoleUser::CheckRole()->user_role === RoleUser::Operator) {
             $list_materi = MateriPembelajaran::get();
         }elseif (RoleUser::CheckRole()->user_role === RoleUser::WaliKelas ) {
             $nik_wali_kelas = Auth::user()->user_code;

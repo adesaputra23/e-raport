@@ -1216,7 +1216,9 @@ use App\Kurikulum;
                                     <th style="width:20%">Mata Pelajaran</th>
                                     <th style="width:20%">Materi Pembelajaran</th>
                                     <th style="width:30%">Tujuan Pembelajaran</th>
-                                    <th style="width:10%">Nilai</th>
+                                    <th style="width:10%">Nilai Harian</th>
+                                    <th style="width:10%">Nilai PTS</th>
+                                    <th style="width:10%">Nilai PAS</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -1231,8 +1233,9 @@ use App\Kurikulum;
                         '">' + value.nama_mt + '</td>';
                     $(value.materi_pembelajaran).each(function(a, b) {
                         $(b.tujuan_pembelajaran).each(function(c, d) {
-                            var nilai_tp = (d.pn_fm_sm != null) ? d.pn_fm_sm
-                                .nilai_tp : null;
+                            var nilai_tp = (d.pn_fm_sm != null) ? (d.pn_fm_sm.nilai_tp === null ? 0 : d.pn_fm_sm.nilai_tp) : 0;
+                            var nilai_pts = (d.pn_fm_sm != null) ? (d.pn_fm_sm.nilai_pts === null ? 0 : d.pn_fm_sm.nilai_pts) : 0;
+                            var nilai_pas = (d.pn_fm_sm != null) ? (d.pn_fm_sm.nilai_pas === null ? 0 : d.pn_fm_sm.nilai_pas) : 0;
                             var id_fm_sm = (d.pn_fm_sm != null) ? d.pn_fm_sm
                                 .id_penilaian_fm_sm : null;
                             obj_formatif[value.kode_mt] = (d.pn_fm_sm !=
@@ -1247,67 +1250,64 @@ use App\Kurikulum;
                                 '</td>';
                             tabel += '<td>' + d.nama_tujuan + '</td>';
                             tabel +=
-                                `<td><input value="${nilai_tp}" type="number" name="nilai_fm_sm" id="nilai_fm_sm" class="form-control form-control-sm nilai_fm_sm_${value.kode_mt} nilai_fm_sm_${b.kode_materi}" placeholder="Nilai" required>`;
+                                `<td><input value="${nilai_tp}" type="number" name="nilai_fm_sm" id="nilai_fm_sm" class="form-control form-control-sm nilai_fm_${value.kode_mt} nilai_sm_${b.kode_materi} nilai_sm_harian_${b.kode_materi}" placeholder="Nilai" required>`;
+                            tabel +=
+                                `<td><input value="${nilai_pts}" type="number" name="nilai_fm_sm_pts" id="nilai_fm_sm_pts" class="form-control form-control-sm nilai_fm_${value.kode_mt} nilai_sm_${b.kode_materi} nilai_sm_pts_${b.kode_materi}" placeholder="Nilai" required>`;
+                            tabel +=
+                                `<td><input value="${nilai_pas}" type="number" name="nilai_fm_sm_pas" id="nilai_fm_sm_pas" class="form-control form-control-sm nilai_fm_${value.kode_mt} nilai_sm_${b.kode_materi} nilai_sm_pas_${b.kode_materi}" placeholder="Nilai" required>`;
                             tabel +=
                                 `<input value="${d.kode_tujuan}" type="hidden" name="kode_tujuan" id="kode_tujuan" class="form-control form-control-sm kode_tujuan_${d.kode_tujuan}" required>`;
                             tabel +=
                                 `<input value="${id_fm_sm}" type="hidden" name="id_pn_fm_sm" id="id_fm_sm" class="form-control form-control-sm id_fm_sm_${d.kode_tujuan}" required></td>`;
                             tabel += '</tr>';
+                            
+                            $(document).on('keyup', '.nilai_fm_' + value.kode_mt, function(){
+                                // menghitung nilai rata - rata formatif
+                                var sum_nilai_formatif = 0;
+                                var nilai_sumatif = 0;
+                                var new_array = [];
+                                var get_nilai = [];
+                                $('.nilai_fm_' + value.kode_mt).each(function(){
+                                    var className_is = $(this).attr('class');
+                                    var x1 = className_is.split(' ');
+                                    new_array.push(x1[3]);
+                                    var nilai = $(this).val();
+                                    if (nilai.trim() != 0) {
+                                        sum_nilai_formatif += parseInt(nilai);
+                                    }
 
-                            $(document).on('change', '.nilai_fm_sm_' + value
-                                .kode_mt,
-                                function() {
-                                    var count_nilai_formatif = $(
-                                        '.nilai_fm_sm_' + value
-                                        .kode_mt).filter(
-                                        function() {
-                                            return this.value
-                                                .trim() != 0;
-                                        }).length;
-
-                                    // formatif
-                                    var sum_d = 0;
-                                    $('.nilai_fm_sm_' + value.kode_mt)
-                                        .each(function() {
-                                            sum_d += +$(this).val();
-                                        });
-                                    var sum_formatif = parseInt(sum_d) /
-                                        parseInt(count_nilai_formatif);
-                                    $('.nilai_formatif' + value.kode_mt)
-                                        .val(sum_formatif);
                                 });
-                        })
+                                var nilai_rata_rata = sum_nilai_formatif / resp.count_mata_tj[value.kode_mt] / 3;
+                                $('.nilai_formatif' + value.kode_mt).val(nilai_rata_rata.toFixed(2));
+                                // end menghitung nilai rata - rata formatif
 
-                        tabel +=
-                            `<input type="hidden" name="nilai_sm" id="nilai_sm" class="form-control form-control-sm nilai_total_sm_${value.kode_mt} nilai_sm_${b.kode_materi}" placeholder="Nilai" required>`;
-
-                        $(document).on('change', '.nilai_fm_sm_' + value.kode_mt,
-                            function() {
-                                var count_nilai = $('.nilai_fm_sm_' + b
-                                    .kode_materi).filter(function() {
-                                    return this.value.trim() != 0;
-                                }).length;
-
-                                // sumatif
-                                var sum = 0;
-                                $('.nilai_fm_sm_' + b.kode_materi).each(
-                                    function() {
-                                        sum += +$(this).val();
-                                    });
-                                var nilai_sumatif = parseInt(sum) / parseInt(
-                                    count_nilai);
-                                $('.nilai_sm_' + b.kode_materi).val(
-                                    nilai_sumatif);
-                                var sum_a = 0;
-                                $('.nilai_total_sm_' + value.kode_mt).each(
-                                    function() {
-                                        sum_a += +$(this).val();
-                                    });
-                                var sum_nilai_sumatif = parseInt(sum_a) / value
-                                    .materi_pembelajaran.length;
-                                $('.nilai_sumatif' + value.kode_mt).val(
-                                    sum_nilai_sumatif);
+                                // menhitung nilai rata - rata sumatif
+                                const unique_array = [...new Set(new_array)];
+                                $(unique_array).each(function(i, f){
+                                    var n = 0;
+                                    var get_nilai_sm = $("." + f).map(function(e){
+                                        var nilai = $(this).val();
+                                        if (nilai.trim() != 0) {
+                                           return n += parseInt(nilai);
+                                        }
+                                    }).get();
+                                    get_nilai.push(get_nilai_sm);
+                                });
+                                var get_new_array = [];
+                                $(get_nilai).each(function(i, f){
+                                    var as_nilai = (f[f.length-1] === undefined) ? 0 : f[f.length-1] / parseInt(f.length);
+                                    get_new_array.push(as_nilai);
+                                });
+                                var final_nilai = 0;
+                                var count_lenght_sum = get_new_array.length;
+                                $(get_new_array).each(function(i, f){
+                                    final_nilai += parseInt(f) / parseInt(count_lenght_sum);
+                                });
+                                $('.nilai_sumatif' + value.kode_mt).val(final_nilai.toFixed(2));
+                                // end menhitung nilai rata - rata sumatif
                             });
+
+                        })
                     })
                     tabel += '</tr>';
 
@@ -1323,17 +1323,17 @@ use App\Kurikulum;
                         tabel += '<tr>';
                         tabel += '<td colspan="2">Nilai Formatif</td>';
                         tabel +=
-                            `<td><input value="${nilai_formatif}" type="number" name="nilai_formatif" id="nilai_formatif_${value.kode_mt}" class="form-control form-control-sm nilai_formatif${value.kode_mt}" placeholder="Nilai Formatif" required readonly></td>`;
+                            `<td colspan="3"><input value="${nilai_formatif}" type="number" name="nilai_formatif" id="nilai_formatif_${value.kode_mt}" class="form-control form-control-sm nilai_formatif${value.kode_mt}" placeholder="Nilai Formatif" required readonly></td>`;
                         tabel += '</tr>';
                         tabel += '<tr>';
                         tabel += '<td colspan="2">Nilai Sumatif</td>';
                         tabel +=
-                            `<td><input value="${nilai_sumatif}" type="number" name="nilai_sumatif" id="nilai_sumatif" class="form-control form-control-sm nilai_sumatif${value.kode_mt}" placeholder="Nilai Sumatif" required readonly></td>`;
+                            `<td colspan="3"><input value="${nilai_sumatif}" type="number" name="nilai_sumatif" id="nilai_sumatif" class="form-control form-control-sm nilai_sumatif${value.kode_mt}" placeholder="Nilai Sumatif" required readonly></td>`;
                         tabel += '</tr>';
                         tabel += '<tr>';
-                        tabel += '<td colspan="2">Nilai Akhir Sumatif</td>';
+                        tabel += '<td colspan="2">Nilai Akhir Semester Sumatif</td>';
                         tabel +=
-                            `<td><input value="${nilai_akhir_sumatif}" type="number" name="nilai_akhir_sumatif" id="nilai_akhir_sumatif" class="form-control form-control-sm nilai_akhir_sumatif${value.kode_mt}" placeholder="Nilai Akhir Sumatif" required></td>`;
+                            `<td colspan="3"><input value="${nilai_akhir_sumatif}" type="number" name="nilai_akhir_sumatif" id="nilai_akhir_sumatif" class="form-control form-control-sm nilai_akhir_sumatif${value.kode_mt}" placeholder="Nilai Akhir Semester Sumatif" required></td>`;
                         tabel += '</tr>';
                         tabel +=
                             `<input value="${value.kode_mt}" type="hidden" name="kode_mt" id="kode_mt" class="form-control form-control-sm kode_mt${value.kode_mt}" placeholder="Kode Mata Pelajaran" required readonly>`;
@@ -1345,7 +1345,6 @@ use App\Kurikulum;
                         </table>
                     `;
                 $('#tabel-for-sum').html(tabel);
-                console.log(resp);
             }
         });
     });
@@ -1357,6 +1356,12 @@ use App\Kurikulum;
             return this.value
         }).get();
         var nilai_fm_sm = $('input[name=nilai_fm_sm').map(function() {
+            return this.value
+        }).get();
+        var nilai_fm_sm_pts = $('input[name=nilai_fm_sm_pts').map(function() {
+            return this.value
+        }).get();
+        var nilai_fm_sm_pas = $('input[name=nilai_fm_sm_pas').map(function() {
             return this.value
         }).get();
         var nilai_formatif = $('input[name=nilai_formatif').map(function() {
@@ -1383,6 +1388,8 @@ use App\Kurikulum;
                 kode_kelas: kode_kelas,
                 kode_tujuan: kode_tujuan,
                 nilai_fm_sm: nilai_fm_sm,
+                nilai_fm_sm_pts: nilai_fm_sm_pts,
+                nilai_fm_sm_pas: nilai_fm_sm_pas,
                 nilai_formatif: nilai_formatif,
                 nilai_sumatif: nilai_sumatif,
                 nilai_akhir_sumatif: nilai_akhir_sumatif,

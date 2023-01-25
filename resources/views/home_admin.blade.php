@@ -1,3 +1,6 @@
+@php
+    use App\RoleUser;
+@endphp
 <div class="row" style="margin-top: -14px;">
     <div class="col-xl-3 col-md-4">
         <a href="{{ URL(Session::get('prefix') . '/siswa/lihat-data') }}">
@@ -105,27 +108,29 @@
             </div><!-- end card -->
         </a>
     </div>
-    <div class="col-xl-3 col-md-4">
-        <a href="{{ URL(Session::get('prefix') . '/user/lihat-data/?menu=pegawai') }}">
-            <div class="card">
-                <div class="card-body">
-                    <div class="card-body border border-primary">
-                        <div class="d-flex">
-                            <div class="flex-grow-1">
-                                <p class="text-truncate font-size-14 mb-2" style="color: black;">User</p>
-                                <h4 class="mb-2">{{ $count_user }}</h4>
-                            </div>
-                            <div class="avatar-sm">
-                                <span class="avatar-title bg-light text-primary rounded-3">
-                                    <i class="fas fa-user-cog font-size-24"></i>
-                                </span>
+    @if (RoleUser::CheckRole()->user_role === RoleUser::Admin)
+        <div class="col-xl-3 col-md-4">
+            <a href="{{ URL(Session::get('prefix') . '/user/lihat-data/?menu=pegawai') }}">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-body border border-primary">
+                            <div class="d-flex">
+                                <div class="flex-grow-1">
+                                    <p class="text-truncate font-size-14 mb-2" style="color: black;">User</p>
+                                    <h4 class="mb-2">{{ $count_user }}</h4>
+                                </div>
+                                <div class="avatar-sm">
+                                    <span class="avatar-title bg-light text-primary rounded-3">
+                                        <i class="fas fa-user-cog font-size-24"></i>
+                                    </span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div><!-- end cardbody -->
-            </div><!-- end card -->
-        </a>
-    </div>
+                    </div><!-- end cardbody -->
+                </div><!-- end card -->
+            </a>
+        </div>
+    @endif
     <div class="col-xl-3 col-md-4">
         <a href="{{ URL(Session::get('prefix') . '/pegawai-guru/lihat-data') }}">
             <div class="card">
@@ -133,7 +138,7 @@
                     <div class="card-body border border-primary">
                         <div class="d-flex">
                             <div class="flex-grow-1">
-                                <p class="text-truncate font-size-14 mb-2" style="color: black;">Pegawai</p>
+                                <p class="text-truncate font-size-14 mb-2" style="color: black;">Guru</p>
                                 <h4 class="mb-2">{{ $count_guru_pegawai }}</h4>
                             </div>
                             <div class="avatar-sm">

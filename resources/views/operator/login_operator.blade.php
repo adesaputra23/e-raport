@@ -43,7 +43,7 @@
                                     </div>
                                 @endif
 
-                                <form class="form-horizontal" method="POST" action="{{ route('proses.login') }}">
+                                <form class="form-horizontal" method="POST" action="{{ route('proses.login.operator') }}">
                                     @csrf
 
                                     <div class="form-group mb-3 row">

@@ -209,7 +209,9 @@ class RaportController extends Controller
                 }elseif($value_p->type_nilai_pengetahuan === 'nilai_pas'){
                     $list_p['nilai_pas'] = $value_p->nilai_total;
                 }
-                $is_nilai_kd_p[$value_p->kd->kode_mt] = $list_p;
+                if (!empty($value_p->kd)) {
+                    $is_nilai_kd_p[$value_p->kd->kode_mt] = $list_p;
+                }
             }
             $is_p = [];
             foreach ($is_nilai_kd_p as $keys_p => $nilai_p) {
@@ -279,17 +281,52 @@ class RaportController extends Controller
         return $list_nilai;
     }
 
-    public static function GenerateNilai($nilai)
+    public static function GenerateNilai($nilai, $kkm = null)
     {
+        // $nilai = 93;
+        $convert_nilai = (int)$nilai;
+        $set_panjang_interval_kkm = (100 - $kkm) / 3;
+        $panjang_interval_kkm = substr($set_panjang_interval_kkm, 0, 1);
+        $interval_kkm_1 = $kkm + $panjang_interval_kkm;
+        $interval_kkm_2 = $interval_kkm_1 + $panjang_interval_kkm;
+        // dd($interval_kkm_2);
         $generate = "E";
-        if ($nilai >= 80) {
-            $generate = "A";
-        }elseif ($nilai >= 70) {
-            $generate = "B";
-        }elseif ($nilai >= 65){
-            $generate = "C";
-        }elseif ($nilai >= 50) {
+        if ($convert_nilai < $kkm) {
             $generate = "D";
+        }elseif ($convert_nilai >= $kkm && $convert_nilai <= $interval_kkm_1) {
+            $generate = "C";
+        }elseif ($convert_nilai >= $interval_kkm_1 && $convert_nilai <= $interval_kkm_2) {
+            $generate = "B";
+        }elseif($convert_nilai >= $interval_kkm_2) {
+            $generate = "A";
+        }
+
+        // if ($nilai >= 80) {
+        //     $generate = "A";
+        // }elseif ($nilai >= 70) {
+        //     $generate = "B";
+        // }elseif ($nilai >= 65){
+        //     $generate = "C";
+        // }elseif ($nilai >= 50) {
+        //     $generate = "D";
+        // }
+
+        // dd($generate);
+
+        return $generate;
+    }
+
+    public static function GenerateNilaiK22($nilai)
+    {
+        $convert_nilai = (int)$nilai;
+        if ($convert_nilai < 55) {
+            $generate = "D";
+        }elseif ($convert_nilai >= 55 && $convert_nilai <= 65) {
+            $generate = "C";
+        }elseif ($convert_nilai > 65 && $convert_nilai <= 85){
+            $generate = "B";
+        }elseif ($convert_nilai > 85) {
+            $generate = "A";
         }
         return $generate;
     }
@@ -304,7 +341,7 @@ class RaportController extends Controller
         }elseif ($predikat == "C") {
             $gnt = "Cukup Baik";
         }elseif ($predikat == "D") {
-            $gnt = "Tidak Baik";
+            $gnt = "Kurang Baik";
         }
         return $gnt;
     }

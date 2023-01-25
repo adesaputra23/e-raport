@@ -13,9 +13,12 @@ use App\Semester;
 use App\Siswa;
 use App\TahunAjaran;
 use App\User;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session as FacadesSession;
+use Symfony\Component\HttpFoundation\Session\Session as SessionSession;
 
 class HomeController extends Controller
 {
@@ -64,7 +67,7 @@ class HomeController extends Controller
                     })->count();
     
             $count_mapel = MataPelajaran::where('kode_kurikulum', $kurikulum->kode_kurikulum)->where('kode_kelas', $kelas->kode_kelas)->count();
-        }elseif(RoleUser::CheckRole()->user_role === RoleUser::Admin){
+        }elseif(in_array(RoleUser::CheckRole()->user_role, [RoleUser::Admin, RoleUser::Operator])){
             $count_siswa = Siswa::count();
             $count_kelas = Kelas::count();
             $count_tahun_ajaran = TahunAjaran::count();

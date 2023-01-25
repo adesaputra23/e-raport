@@ -203,9 +203,9 @@
                                                         </td>
                                                         <td class="text-center">
                                                             @php
-                                                                $grnerate_nilai = RaportController::GenerateNilai($nilai['nilai_total']);
+                                                                $grnerate_nilai = RaportController::GenerateNilaiK22($nilai['nilai_total']);
                                                                 $gnerate_predikat = RaportController::GeneratePredikat($grnerate_nilai);
-                                                                $line_text = 'Ananda ' . $is_data->nama_siswa . ', ' . $gnerate_predikat . ' ';
+                                                                $line_text = 'Ananda ' . $is_data->nama_siswa . ', ' . $gnerate_predikat . ' dalam ';
                                                             @endphp
                                                             {{ $nilai['nilai_total'] }}
                                                         </td>
