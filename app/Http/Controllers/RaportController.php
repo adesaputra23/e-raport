@@ -90,6 +90,7 @@ class RaportController extends Controller
                 $data_siswa = self::getSiswak13($request);
                 $data_nilai = self::getNilaiK13($request);
                 $is_data = $data_siswa;
+                // dd($data_siswa);
             }
             return view('nilai_raport/k13/index', 
                 compact('list_siswa', 'is_data', 'data_nilai', 'nilai_kkm', 'list_kelas', 'data_pn_sikap', 'data_ekskul', 'data_saran', 'data_TBdanBB', 'data_kodisi_kesehatan', 'data_prestasi', 'data_absensi')
@@ -109,7 +110,7 @@ class RaportController extends Controller
     public function getSiswak13($request)
     {
         if (RoleUser::CheckRole()->user_role === RoleUser::KP) {
-            $kelas = (object)['kode_kelas' => 'KLS01'];
+            $kelas = Kelas::where('kode_kelas', $request->kelas)->first();
         }elseif(RoleUser::CheckRole()->user_role === RoleUser::WaliKelas){
             $nik_wali_kelas = Auth::user()->user_code;
             $kelas = Kelas::where('nik', $nik_wali_kelas)->first();
@@ -139,7 +140,7 @@ class RaportController extends Controller
     public function getNilaiK13($request)
     {
         if (RoleUser::CheckRole()->user_role === RoleUser::KP) {
-            $kelas = (object)['kode_kelas' => 'KLS01'];
+            $kelas = Kelas::where('kode_kelas', $request->kelas)->first();
         }elseif(RoleUser::CheckRole()->user_role === RoleUser::WaliKelas){
             $nik_wali_kelas = Auth::user()->user_code;
             $kelas = Kelas::where('nik', $nik_wali_kelas)->first();
@@ -148,7 +149,6 @@ class RaportController extends Controller
             $query_get_kelas = [['id_tahun_ajaran', $this->tahun_ajaran],['nisn', $siswa_nisn]];
             $kelas = KelasSiswa::where($query_get_kelas)->first();
         }
-
         $is_data = [];
         if (!empty($kelas)) {
             // nilai keterampilan
@@ -234,7 +234,7 @@ class RaportController extends Controller
         $semester = Semester::GetAktifSemester()->id;
         $tahun_ajaran = TahunAjaran::GetAktiveTahunAjaran()->id_tahun_ajaran;
         if (RoleUser::CheckRole()->user_role === RoleUser::KP) {
-            $kelas = (object)['kode_kelas' => 'KLS01'];
+            $kelas = Kelas::where('kode_kelas', $request->kelas)->first();
         }elseif(RoleUser::CheckRole()->user_role === RoleUser::WaliKelas){
             $nik_wali_kelas = Auth::user()->user_code;
             $kelas = Kelas::where('nik', $nik_wali_kelas)->first();
@@ -256,7 +256,7 @@ class RaportController extends Controller
         $semester = Semester::GetAktifSemester()->id;
         $tahun_ajaran = TahunAjaran::GetAktiveTahunAjaran()->id_tahun_ajaran;
         if (RoleUser::CheckRole()->user_role === RoleUser::KP) {
-            $kelas = (object)['kode_kelas' => 'KLS01'];
+            $kelas = Kelas::where('kode_kelas', $request->kelas)->first();
         }elseif(RoleUser::CheckRole()->user_role === RoleUser::WaliKelas){
             $nik_wali_kelas = Auth::user()->user_code;
             $kelas = Kelas::where('nik', $nik_wali_kelas)->first();
