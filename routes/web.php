@@ -41,6 +41,9 @@ Route::get('/tahun-ajaran/form-tambah-data/{id}', 'TahunAjaranController@FormTam
 Route::post('/tahun-ajaran/simpan-data', 'TahunAjaranController@SimpanData')->name('tahun.ajaran.simpan.data.admin');
 Route::get('/tahun-ajaran/hapus-data/{id}', 'TahunAjaranController@hapusData')->name('tahun.ajaran.hapus.data.admin');
 
+// semester update
+Route::get('/tahun-ajaran/semester/{id}', 'TahunAjaranController@UpdateSemster')->name('tahun.ajaran.update.semester.admin');
+
 // siswa
 Route::get('/siswa/lihat-data', 'SiswaController@LihatData')->name('siswa.lihat.data.admin');
 Route::get('/siswa/form-tambah-data/{nisn}', 'SiswaController@FormTambahData')->name('siswa.form.tambah.data.admin');

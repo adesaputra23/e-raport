@@ -250,13 +250,14 @@ class RaportController extends Controller
         return $getSiswa;
     }
 
-    public static function getNilaiK22($request)
+    public static function getNilaiK22($request, $kode_kelas = null)
     {
         $nisn = $request->nisn ?? $request;
+        $kelas = ($kode_kelas == null) ? $request->kelas : $kode_kelas;
         $semester = Semester::GetAktifSemester()->id;
         $tahun_ajaran = TahunAjaran::GetAktiveTahunAjaran()->id_tahun_ajaran;
         if (RoleUser::CheckRole()->user_role === RoleUser::KP) {
-            $kelas = Kelas::where('kode_kelas', $request->kelas)->first();
+            $kelas = Kelas::where('kode_kelas', $kelas)->first();
         }elseif(RoleUser::CheckRole()->user_role === RoleUser::WaliKelas){
             $nik_wali_kelas = Auth::user()->user_code;
             $kelas = Kelas::where('nik', $nik_wali_kelas)->first();
@@ -384,7 +385,7 @@ class RaportController extends Controller
             $semester = Semester::GetAktifSemester()->id;
             $tahun_ajaran = TahunAjaran::GetAktiveTahunAjaran()->id_tahun_ajaran;
             $data_siswa = PnSmFm::with('siswa')->where('nisn', $nisn)->where('kode_kelas', $kode_kelas)->where('id_semester', $semester)->where('id_tahun_ajaran', $tahun_ajaran)->first();
-            $data_nilai = self::getNilaiK22($nisn);
+            $data_nilai = self::getNilaiK22($nisn, $kode_kelas);
             $data_ekskul = self::getEkskul($nisn, $kode_kelas);
             $data_absensi = self::GetAbsesni($nisn, $kode_kelas);
             $pdf = PDF::loadview('nilai_raport/k22/cetak_pdf', compact('data_siswa', 'data_nilai', 'data_ekskul', 'data_absensi'));
